@@ -1,6 +1,6 @@
 {
   "aliases": {
-    "hello": {
+    "service": {
       "script-ref":   "Service.java",
       "description":  "A basic Picocli sample to simulate a Linux 'service' command."
     }
