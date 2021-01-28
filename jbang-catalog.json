@@ -3,6 +3,10 @@
     "ssh": {
       "script-ref":   "Ssh.java",
       "description":  "A basic SSH client written with Apache Mina, Jbang and Picocli"
+    },
+    "sort": {
+      "script-ref":   "Sort.java",
+      "description":  "A sample sort program to illustrate Java stream and Array sort use written with Jbang and Picocli"
     }
   }
 }
