@@ -57,7 +57,7 @@ class Sort implements Callable<Integer> {
 
     private Object mapElement(final String element) {
         if (numericSort) {
-            return Long.parseLong(element);
+            return Double.parseDouble(element);
         }
         if (humanNumericSort) {
             return HumanNumeric.parse(element);
@@ -67,14 +67,15 @@ class Sort implements Callable<Integer> {
 
     private enum Unit {
         U(1),
+        k(1000 * U.size),
         K(1000 * U.size),
         M(1000 * K.size),
         G(1000 * M.size),
         T(1000 * G.size);
 
-        private final long size;
+        private final double size;
 
-        Unit(final long size) {
+        Unit(final double size) {
             this.size = size;
         }
 
@@ -86,27 +87,27 @@ class Sort implements Callable<Integer> {
 
     private static class HumanNumeric implements Comparable<HumanNumeric> {
 
-        private final long size;
+        private final double size;
         private final Unit unit;
 
-        HumanNumeric(final long size, final Unit unit) {
+        HumanNumeric(final double size, final Unit unit) {
             this.size = size;
             this.unit = unit;
         }
 
-        public long getHumanSize() {
+        public double getHumanSize() {
             return size * unit.size;
         }
 
         public static HumanNumeric parse(final String element) {
             final char lastChar = element.charAt(element.length() - 1);
             if (Character.isDigit(lastChar)) {
-                return new HumanNumeric(Long.parseLong(element), Unit.U);
+                return new HumanNumeric(Double.parseDouble(element), Unit.U);
             }
             for (final Unit unit : Unit.values()) {
                 if (element.endsWith(unit.name())) {
                     final String[] strings = element.split(unit.name());
-                    return new HumanNumeric(Long.parseLong(strings[0]), unit);
+                    return new HumanNumeric(Double.parseDouble(strings[0]), unit);
                 }
             }
             throw new IllegalArgumentException("Unknown unit: " + lastChar);
@@ -114,7 +115,7 @@ class Sort implements Callable<Integer> {
 
         @Override
         public int compareTo(final HumanNumeric human) {
-            return Long.compare(getHumanSize(), human.getHumanSize());
+            return Double.compare(getHumanSize(), human.getHumanSize());
         }
 
         @Override
