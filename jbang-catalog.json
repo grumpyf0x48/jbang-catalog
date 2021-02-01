@@ -7,6 +7,10 @@
     "sort": {
       "script-ref":   "Sort.java",
       "description":  "A sample sort program to illustrate Java stream and Array sort use written with Jbang and Picocli"
+    },
+    "links": {
+      "script-ref":   "Links.java",
+      "description":  "A program to retrieve the posts metadata of my former blog archived on https://web.archive.org written with Jsoup, Jbang and Picocli"
     }
   }
 }
