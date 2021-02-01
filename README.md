@@ -23,5 +23,5 @@ $ jbang sort@grumpyf0x48 -r -m $(exa -l ~/Downloads | cut -d " " -f 2 | xargs)
 A program to retrieve the posts metadata of my former blog archived on https://web.archive.org written with Jsoup, Jbang and Picocli.
 
 ```console
-$ jbang links@grumpyf0x48 -v -f 1 -l 4 -o firstPosts.json
+$ jbang links@grumpyf0x48 -v -f 1 -l 4 firstPosts.json
 ```
