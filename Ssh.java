@@ -34,7 +34,7 @@ class Ssh implements Callable<Integer> {
     @Option(names = {"-i", "--identity"}, description = "Identity file")
     private File identityFile;
 
-    @Option(names = {"-p", "--port"}, defaultValue = "22", description = "Port (default: ${DEFAULT-VALUE})")
+    @Option(names = {"--port"}, defaultValue = "22", description = "Port (default: ${DEFAULT-VALUE})")
     private int port;
 
     @Option(names = {"-a", "--authentication-timeout"}, defaultValue = "30", description = "Authentication timeout in seconds (default: ${DEFAULT-VALUE})")
@@ -43,13 +43,16 @@ class Ssh implements Callable<Integer> {
     @Option(names = {"-c", "--connection-timeout"}, defaultValue = "30", description = "Connection timeout in seconds (default: ${DEFAULT-VALUE})")
     private int connectionTimeout;
 
+    @Option(names = {"-p"}, description = "Password")
+    private String password;
+
     @Parameters(description = "Destination to reach (format: user@hostname)")
     private String destination;
 
     @Parameters(arity = "0..1", index = "1", description = "Command to execute")
     private String command;
 
-    private String user, hostname, password;
+    private String user, hostname;
 
     public static void main(final String... args) {
         int exitCode = new CommandLine(new Ssh()).execute(args);
@@ -76,9 +79,11 @@ class Ssh implements Callable<Integer> {
         hostname = strings[1];
 
         if (identityFile == null) {
-            final Console console = System.console();
-            final char[] passwordArray = console.readPassword("Enter the password to connect to %s: ", destination);
-            password = new String(passwordArray);
+            if (password == null) {
+                final Console console = System.console();
+                final char[] passwordArray = console.readPassword("Enter the password to connect to %s: ", destination);
+                password = new String(passwordArray);
+            }
         } else if (!identityFile.exists()) {
             System.err.println("IdentityFile does not exist !");
             return 1;
