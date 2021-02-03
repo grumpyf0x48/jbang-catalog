@@ -33,4 +33,3 @@ A program to build the archive page for my new blog from the posts.json file gen
 ```console
 $ jbang html@grumpyf0x48 -i posts.json -o archive.html
 ```
-
