@@ -33,3 +33,11 @@ A program to build the archive page for my new blog from the posts.json file gen
 ```console
 $ jbang html@grumpyf0x48 -i posts.json -o archive.html
 ```
+
+## SizeOf
+
+A program to display the memory size of Java primitive types and their corresponding wrapper classes. Written with OpenJDL jol, Jbang and Picocli.
+
+```console
+$ jbang sizeof@grumpyf0x48
+```
