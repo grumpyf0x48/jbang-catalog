@@ -25,8 +25,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.security.KeyPair;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 @Command(name = "Ssh", mixinStandardHelpOptions = true, version = "Ssh 0.1", description = "Ssh client written with Apache Mina, Jbang and Picocli")
 class Ssh implements Callable<Integer> {
@@ -49,8 +52,8 @@ class Ssh implements Callable<Integer> {
     @Parameters(description = "Destination to reach (format: user@hostname)")
     private String destination;
 
-    @Parameters(arity = "0..1", index = "1", description = "Command to execute")
-    private String command;
+    @Parameters(arity = "0..*", index = "1..*", description = "Command to execute and its parameters")
+    private final List<String> command = new ArrayList<>();
 
     private String user, hostname;
 
@@ -124,12 +127,13 @@ class Ssh implements Callable<Integer> {
                     return 1;
                 }
 
-                if (command != null) {
-                    executeCommand(clientSession);
+                if (!command.isEmpty()) {
+                    executeCommand(clientSession, command);
                 } else {
                     final Console console = System.console();
-                    while ((command = getCommand(console, clientSession)) != null) {
-                        executeCommand(clientSession);
+                    String userCommand;
+                    while ((userCommand = getCommand(console, clientSession)) != null) {
+                        executeCommand(clientSession, Collections.singletonList(userCommand));
                     }
                 }
             }
@@ -138,9 +142,14 @@ class Ssh implements Callable<Integer> {
         return 0;
     }
 
-    private void executeCommand(final ClientSession clientSession) throws IOException {
-        final String commandOutput = clientSession.executeRemoteCommand(command);
+    private static void executeCommand(final ClientSession clientSession, final List<String> command) throws IOException {
+        final String remoteCommand = buildRemoteCommand(command);
+        final String commandOutput = clientSession.executeRemoteCommand(remoteCommand);
         System.out.println(commandOutput);
+    }
+
+    private static String buildRemoteCommand(final List<String> command) {
+        return command.stream().map(s -> s + ' ').collect(Collectors.joining()).stripTrailing();
     }
 
     private String getCommand(final Console console, final ClientSession clientSession) throws IOException {
