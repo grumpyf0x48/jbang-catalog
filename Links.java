@@ -117,12 +117,12 @@ class Links implements Callable<Integer> {
     private static class PostInfo implements Comparable<PostInfo> {
         final String url;
         final String title;
-        final String stringDate;
+        final String date;
 
-        public PostInfo(final String url, final String title, final String stringDate) {
+        public PostInfo(final String url, final String title, final String date) {
             this.url = url;
             this.title = title;
-            this.stringDate = stringDate;
+            this.date = date;
         }
 
         @Override
@@ -144,7 +144,7 @@ class Links implements Callable<Integer> {
 
         @Override
         public int compareTo(final PostInfo postInfo) {
-            return getLocalDateTime(stringDate).compareTo(getLocalDateTime(postInfo.stringDate));
+            return getLocalDateTime(date).compareTo(getLocalDateTime(postInfo.date));
         }
 
         @Override
