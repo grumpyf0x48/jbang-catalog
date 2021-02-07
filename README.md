@@ -8,8 +8,32 @@ A basic SSH client.
 
 Written with Apache Mina, Jbang and Picocli.
 
+### Usage
+
 ```console
-$ jbang ssh@grumpyf0x48 -i ~/.ssh/id_rsa pi@192.168.0.108 "free -h"
+$ jbang ssh@grumpyf0x48 --help
+Usage: Ssh [-hV] [-a=<authenticationTimeout>] [-c=<connectionTimeout>]
+           [-i=<identityFile>] [-p=<password>] [--port=<port>] <destination>
+           [<command>...]
+Ssh client written with Apache Mina, Jbang and Picocli
+      <destination>    Destination to reach (format: user@hostname)
+      [<command>...]   Command to execute and its parameters
+  -a, --authentication-timeout=<authenticationTimeout>
+                       Authentication timeout in seconds (default: 30)
+  -c, --connection-timeout=<connectionTimeout>
+                       Connection timeout in seconds (default: 30)
+  -h, --help           Show this help message and exit.
+  -i, --identity=<identityFile>
+                       Identity file
+  -p=<password>        Password
+      --port=<port>    Port (default: 22)
+  -V, --version        Print version information and exit.
+```
+
+### Sample use
+
+```console
+$ jbang ssh@grumpyf0x48 -i ~/.ssh/id_rsa pi@192.168.0.108 ls /home
 ```
 
 ## Sort
@@ -17,6 +41,23 @@ $ jbang ssh@grumpyf0x48 -i ~/.ssh/id_rsa pi@192.168.0.108 "free -h"
 A sample sort program to illustrate Java stream and Array sort use.
 
 Written with Jbang and Picocli.
+
+### Usage
+
+```console
+$ jbang sort@grumpyf0x48 --help
+Usage: Sort [-himnrV] [<elements>...]
+Sort made with jbang
+      [<elements>...]        Elements to sort
+  -h, --help                 Show this help message and exit.
+  -i, --ignore-case          Enable ignore case
+  -m, --human-numeric-sort   Enable human numeric sort
+  -n, --numeric-sort         Enable numeric sort
+  -r, --reverse              Enable reverse sort
+  -V, --version              Print version information and exit.
+```
+
+### Sample use
 
 ```console
 $ jbang sort@grumpyf0x48 -r -m $(exa -l ~/Downloads | cut -d " " -f 2 | xargs)
@@ -28,6 +69,30 @@ A program to retrieve the posts metadata of my former blog archived on https://w
 
 Written with Jsoup, Gson, Jbang and Picocli.
 
+### Usage
+
+```console
+$ jbang links@grumpyf0x48 --help
+Usage: Links [-hvV] [-a=<archivedSiteUrl>] [-f=<firstPage>] [-l=<lastPage>]
+             [-r=<rootUrl>] <file>
+Links made with jbang
+      <file>                 The output file
+  -a, --archived-site-url=<archivedSiteUrl>
+                             The URL of the archived web Site (default: http:
+                               //blog.onkeyboardst.net)
+  -f, --first-page=<firstPage>
+                             First page to parse (default: 1)
+  -h, --help                 Show this help message and exit.
+  -l, --last-page=<lastPage> Last page to parse (default: 1)
+  -r, --root-url=<rootUrl>   The root URL to parse on https://web.archive.org
+                               (default: https://web.archive.
+                               org/web/20200211042437)
+  -v, --verbose              Enable verbose mode
+  -V, --version              Print version information and exit.
+```
+
+### Sample use
+
 ```console
 $ jbang links@grumpyf0x48 -v -f 1 -l 4 firstPosts.json
 ```
@@ -38,6 +103,20 @@ A program to build the archive page for my new blog from the posts.json file gen
 
 Written with Gson, Jbang and Picocli.
 
+### Usage
+
+```console
+$ jbang html@grumpyf0x48 --help
+Usage: Html [-hV] -i=<inputFile> -o=<outputFile>
+Html made with Gson, Jbang and Picocli
+  -h, --help         Show this help message and exit.
+  -i=<inputFile>     The input file (.json)
+  -o=<outputFile>    The output file (.html)
+  -V, --version      Print version information and exit.
+```
+
+### Sample use
+
 ```console
 $ jbang html@grumpyf0x48 -i posts.json -o archive.html
 ```
@@ -47,6 +126,20 @@ $ jbang html@grumpyf0x48 -i posts.json -o archive.html
 A program to display the memory size of Java primitive types and their corresponding wrapper classes.
 
 Written with OpenJDK jol, Jbang and Picocli.
+
+### Usage
+
+```console
+$ jbang sizeof@grumpyf0x48 --help
+Usage: SizeOf [-hV] [<types>...]
+SizeOf made with jbang and OpenJDK jol
+      [<types>...]   The primitive types (default: byte, boolean, char, short,
+                       int, float, long, double
+  -h, --help         Show this help message and exit.
+  -V, --version      Print version information and exit.
+```
+
+### Sample use
 
 ```console
 $ jbang sizeof@grumpyf0x48
