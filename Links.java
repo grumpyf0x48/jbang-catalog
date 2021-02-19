@@ -1,7 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //DEPS com.google.code.gson:gson:2.3.1
-//DEPS org.apache.commons:commons-io:1.3.2
+//DEPS commons-io:commons-io:2.8.0
 //DEPS org.jsoup:jsoup:1.10.2
 //DEPS info.picocli:picocli:4.5.0
 
@@ -20,6 +20,7 @@ import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Objects;
@@ -68,7 +69,7 @@ class Links implements Callable<Integer> {
         if (verbose) {
             System.out.printf("Found %d posts in %d-%d pages %n", postInfoSet.size(), firstPage, lastPage);
         }
-        FileUtils.writeStringToFile(file, postInfoSet.toString());
+        FileUtils.writeStringToFile(file, postInfoSet.toString(), StandardCharsets.UTF_8);
         return 0;
     }
 
