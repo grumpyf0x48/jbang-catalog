@@ -165,12 +165,12 @@ Written with jGit, Jbang and Picocli.
 ### Usage
 
 ```console
-$ jbang git-clone@grumpyf0x48 --help
+$ jbang git-clone@grumpyf0X48 --help
 Usage: GitClone [-hnV] [--bare] [-b=<branch>] [-i=<identityFile>] <repository>
-                [<directory>]
+                <directory>
 GitClone made with jbang
       <repository>        The repository to clone from
-      [<directory>]       The name of a new directory to clone into
+      <directory>         The name of a new directory to clone into
   -b, --branch=<branch>   Branch name
       --bare              Make a bare Git repository
   -h, --help              Show this help message and exit.
@@ -178,7 +178,6 @@ GitClone made with jbang
                           Identity file in PEM format (default: ~/.ssh/id_rsa)
   -n, --no-checkout       No checkout of HEAD is performed after the clone is
                             complete
-  -V, --version           Print version information and exit.
 ```
 
 The SSH key should be in PEM format.
