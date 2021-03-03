@@ -188,3 +188,29 @@ To convert a private key from OPENSSH to PEM format:
 ```console
 $ ssh-keygen -p -f ~/.ssh/id_rsa -m pem
 ```
+
+## GitGet
+
+A command to get one or more files from a Git repository.
+
+It is like `git clone` but restricted to some files of the repository.
+
+### Usage
+
+```console
+$ jbang git-get@grumpyf0x48 --help
+Usage: GitGet [-hnV] [--bare] [-b=<branch>] [-i=<identityFile>] <repository>
+              <directory> <files>...
+GitGet made with jbang
+      <repository>        The repository to clone from
+      <directory>         The name of a new directory to clone into
+      <files>...          The files to get from the repository
+  -b, --branch=<branch>   Branch name
+      --bare              Make a bare Git repository
+  -h, --help              Show this help message and exit.
+  -i, --identity=<identityFile>
+                          Identity file in PEM format (default: ~/.ssh/id_rsa)
+  -n, --no-checkout       No checkout of HEAD is performed after the clone is
+                            complete
+  -V, --version           Print version information and exit.
+```

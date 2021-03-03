@@ -23,6 +23,10 @@
     "git-clone": {
       "script-ref": "GitClone.java",
       "description": "A basic `git clone` replacement in Java. Written with jGit, Jbang and Picocli"
+    },
+    "git-get": {
+      "script-ref": "GitGet.java",
+      "description": "A command to get one or more files from a Git repository. Written with jGit, Jbang and Picocli"
     }
   }
 }
