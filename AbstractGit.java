@@ -34,9 +34,6 @@ abstract class AbstractGit implements Callable<Integer> {
     @Parameters(description = "The repository to clone from")
     String repository;
 
-    @Parameters(arity = "1", index = "1", description = "The name of a new directory to clone into")
-    File directory;
-
     @Override
     public Integer call() throws Exception {
         final CloneCommand cloneCommand = Git.cloneRepository()

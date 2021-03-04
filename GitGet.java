@@ -20,6 +20,9 @@ import java.util.Arrays;
 @Command(name = "GitGet", mixinStandardHelpOptions = true, version = "GitGet 0.1", description = "GitGet made with jbang")
 class GitGet extends AbstractGit {
 
+    @Parameters(arity = "1", index = "1", description = "The name of a new directory to clone into")
+    File directory;
+
     @Parameters(arity = "1", index = "2..n", description = "The files to get from the repository")
     File[] files;
 

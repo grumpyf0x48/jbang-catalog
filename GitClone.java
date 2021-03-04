@@ -7,12 +7,16 @@
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.io.IOException;
 
 @Command(name = "GitClone", mixinStandardHelpOptions = true, version = "GitClone 0.1", description = "GitClone made with jbang")
 class GitClone extends AbstractGit {
+
+    @Parameters(arity = "0..1", index = "1", description = "The name of a new directory to clone into")
+    File directory;
 
     public static void main(final String... args) {
         int exitCode = new CommandLine(new GitClone()).execute(args);
