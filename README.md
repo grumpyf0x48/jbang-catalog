@@ -189,22 +189,28 @@ To convert a private key from OPENSSH to PEM format:
 $ ssh-keygen -p -f ~/.ssh/id_rsa -m pem
 ```
 
+### Sample use
+
+```console
+$ jbang git-clone@grumpyf0x48 git@github.com:jbangdev/jbang.git /tmp/jbang
+```
+
 ## GitGet
 
-A command to get one or more files from a Git repository.
+A command to get one or more files (or directories) from a Git repository.
 
-It is like `git clone` but restricted to some files of the repository.
+It is like `git clone` but restricted to some files or directories of the repository.
 
 ### Usage
 
 ```console
 $ jbang git-get@grumpyf0x48 --help
 Usage: GitGet [-hnV] [--bare] [-b=<branch>] [-i=<identityFile>] <repository>
-              <directory> <files>...
+              <directory> <paths>...
 GitGet made with jbang
       <repository>        The repository to clone from
       <directory>         The name of a new directory to clone into
-      <files>...          The files to get from the repository
+      <paths>...          The file or directory paths to get from the repository
   -b, --branch=<branch>   Branch name
       --bare              Make a bare Git repository
   -h, --help              Show this help message and exit.
@@ -213,4 +219,10 @@ GitGet made with jbang
   -n, --no-checkout       No checkout of HEAD is performed after the clone is
                             complete
   -V, --version           Print version information and exit.
+```
+
+### Sample use
+
+```console
+$ jbang git-get@grumpyf0x48 git@github.com:jbangdev/jbang.git /tmp/jbang src/ examples/ readme.adoc
 ```

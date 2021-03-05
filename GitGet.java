@@ -23,8 +23,8 @@ class GitGet extends AbstractGit {
     @Parameters(arity = "1", index = "1", description = "The name of a new directory to clone into")
     File directory;
 
-    @Parameters(arity = "1", index = "2..n", description = "The files to get from the repository")
-    File[] files;
+    @Parameters(arity = "1", index = "2..n", description = "The file or directory paths to get from the repository")
+    String[] paths;
 
     File cloneDirectory;
 
@@ -36,16 +36,21 @@ class GitGet extends AbstractGit {
     @Override
     public Integer call() throws Exception {
         super.call();
-        Arrays.stream(files).forEach(file -> {
+        Arrays.stream(paths).forEach(path -> {
+            final File file = new File(path);
             try {
                 final File destFile = new File(directory, file.getPath());
                 if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs()) {
                     throw new IOException("Failed to create directory: " + destFile.getParentFile());
                 }
                 final File srcFile = new File(getCloneDirectory(), file.getPath());
-                FileUtils.copyFile(srcFile, destFile);
+                if (path.endsWith("/")) {
+                    FileUtils.copyDirectory(srcFile, destFile);
+                } else {
+                    FileUtils.copyFile(srcFile, destFile);
+                }
             } catch (final IOException ioException) {
-                System.err.printf("Failed to copy %s to %s\n", file, directory);
+                System.err.printf("Failed to copy %s to %s\n", path, directory);
             }
         });
         FileUtils.deleteDirectory(getCloneDirectory());

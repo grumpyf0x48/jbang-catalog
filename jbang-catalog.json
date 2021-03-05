@@ -26,7 +26,7 @@
     },
     "git-get": {
       "script-ref": "GitGet.java",
-      "description": "A command to get one or more files from a Git repository. Written with jGit, Jbang and Picocli"
+      "description": "A command to get one or more files (or directories) from a Git repository. Written with jGit, Jbang and Picocli"
     }
   }
 }
