@@ -205,14 +205,15 @@ It is like `git clone` but restricted to some files or directories of the reposi
 
 ```console
 $ jbang git-get@grumpyf0x48 --help
-Usage: GitGet [-hnV] [--bare] [-b=<branch>] [-i=<identityFile>] <repository>
-              <directory> <paths>...
+Usage: GitGet [-hnV] [--bare] [--fresh] [-b=<branch>] [-i=<identityFile>]
+              <repository> <directory> <paths>...
 GitGet made with jbang
       <repository>        The repository to clone from
-      <directory>         The name of a new directory to clone into
+      <directory>         The name of a new directory where to store files
       <paths>...          The file or directory paths to get from the repository
   -b, --branch=<branch>   Branch name
       --bare              Make a bare Git repository
+      --fresh             Make a fresh clone of the repository
   -h, --help              Show this help message and exit.
   -i, --identity=<identityFile>
                           Identity file in PEM format (default: ~/.ssh/id_rsa)
@@ -224,5 +225,23 @@ GitGet made with jbang
 ### Sample use
 
 ```console
-$ jbang git-get@grumpyf0x48 git@github.com:jbangdev/jbang.git /tmp/jbang src/ examples/ readme.adoc
+$ jbang git-get@grumpyf0x48 git@github.com:jbangdev/jbang.git ~/jbang-files misc/ src/ readme.adoc
+$ ls -l ~/jbang-files
+total 64
+drwxrwxr-x 3 user user  4096 mars   7 08:24 misc
+-rw-rw-r-- 1 user user 54560 mars   7 08:24 readme.adoc
+drwxrwxr-x 4 user user  4096 mars   7 08:24 src
+```
+
+Need to add more files to `~/jbang-files` ?
+
+```console
+$ jbang git-get@grumpyf0x48 git@github.com:jbangdev/jbang.git ~/jbang-files examples/ LICENSE
+$ ls -l ~/jbang-files
+total 72
+drwxrwxr-x 2 user user  4096 mars   7 08:24 examples
+-rw-rw-r-- 1 user user  1076 mars   7 08:24 LICENSE
+drwxrwxr-x 3 user user  4096 mars   7 08:24 misc
+-rw-rw-r-- 1 user user 54560 mars   7 08:24 readme.adoc
+drwxrwxr-x 4 user user  4096 mars   7 08:24 src
 ```

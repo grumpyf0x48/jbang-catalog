@@ -10,7 +10,6 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 import java.io.File;
-import java.io.IOException;
 
 @Command(name = "GitClone", mixinStandardHelpOptions = true, version = "GitClone 0.1", description = "GitClone made with jbang")
 class GitClone extends AbstractGit {
@@ -24,7 +23,7 @@ class GitClone extends AbstractGit {
     }
 
     @Override
-    public File getCloneDirectory() throws IOException {
+    public File getCloneDirectory() throws Exception {
         return directory;
     }
 }

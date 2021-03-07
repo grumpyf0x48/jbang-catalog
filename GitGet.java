@@ -8,23 +8,32 @@
 
 import org.apache.commons.io.FileUtils;
 
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 @Command(name = "GitGet", mixinStandardHelpOptions = true, version = "GitGet 0.1", description = "GitGet made with jbang")
 class GitGet extends AbstractGit {
 
-    @Parameters(arity = "1", index = "1", description = "The name of a new directory to clone into")
+    @Parameters(arity = "1", index = "1", description = "The name of a new directory where to store files")
     File directory;
 
     @Parameters(arity = "1", index = "2..n", description = "The file or directory paths to get from the repository")
     String[] paths;
+
+    @Option(names = {"--fresh"}, description = "Make a fresh clone of the repository")
+    boolean fresh;
 
     File cloneDirectory;
 
@@ -35,7 +44,14 @@ class GitGet extends AbstractGit {
 
     @Override
     public Integer call() throws Exception {
-        super.call();
+        final Path clonePath = getCloneDirectory().toPath();
+        if (fresh) {
+            Files.deleteIfExists(clonePath);
+        }
+        Files.createDirectories(clonePath);
+        if (!RepositoryCache.FileKey.isGitRepository(new File(getCloneDirectory(), ".git"), FS.DETECTED)) {
+            super.call();
+        }
         Arrays.stream(paths).forEach(path -> {
             final File file = new File(path);
             try {
@@ -49,18 +65,17 @@ class GitGet extends AbstractGit {
                 } else {
                     FileUtils.copyFile(srcFile, destFile);
                 }
-            } catch (final IOException ioException) {
+            } catch (final Exception exception) {
                 System.err.printf("Failed to copy %s to %s\n", path, directory);
             }
         });
-        FileUtils.deleteDirectory(getCloneDirectory());
         return 0;
     }
 
     @Override
-    public File getCloneDirectory() throws IOException {
+    public File getCloneDirectory() throws Exception {
         if (cloneDirectory == null) {
-            cloneDirectory = Files.createTempDirectory("GitGet").toFile();
+            cloneDirectory = new File(System.getProperty("java.io.tmpdir"), new URIish(repository).getPath());
         }
         return cloneDirectory;
     }

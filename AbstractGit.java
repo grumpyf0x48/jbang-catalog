@@ -25,14 +25,14 @@ abstract class AbstractGit implements Callable<Integer> {
     @Option(names = {"-b", "--branch"}, description = "Branch name")
     String branch;
 
+    @Parameters(description = "The repository to clone from")
+    String repository;
+
     @Option(names = {"--bare"}, description = "Make a bare Git repository")
     boolean bare;
 
     @Option(names = {"-n", "--no-checkout"}, description = "No checkout of HEAD is performed after the clone is complete")
     boolean noCheckout;
-
-    @Parameters(description = "The repository to clone from")
-    String repository;
 
     @Override
     public Integer call() throws Exception {
@@ -43,15 +43,15 @@ abstract class AbstractGit implements Callable<Integer> {
                 .setBare(bare)
                 .setNoCheckout(noCheckout);
         if (!repository.startsWith("https://")) {
-            cloneCommand.setTransportConfigCallback(new AbstractGit.SshTransportConfigCallback());
+            cloneCommand.setTransportConfigCallback(new SshTransportConfigCallback());
         }
         cloneCommand.call();
         return 0;
     }
 
-    public abstract File getCloneDirectory() throws IOException;
+    public abstract File getCloneDirectory() throws Exception;
 
-    private File getCloneCommandDirectory() throws IOException {
+    private File getCloneCommandDirectory() throws Exception {
         File cloneDirectory = getCloneDirectory();
         if (cloneDirectory == null) {
             cloneDirectory = new File(".");
