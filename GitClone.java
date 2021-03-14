@@ -7,6 +7,7 @@
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.File;
@@ -17,6 +18,12 @@ class GitClone extends AbstractGit {
     @Parameters(arity = "0..1", index = "1", description = "The name of a new directory to clone into")
     File directory;
 
+    @Option(names = {"--bare"}, description = "Make a bare Git repository")
+    boolean bare;
+
+    @Option(names = {"-n", "--no-checkout"}, description = "No checkout of HEAD is performed after the clone is complete")
+    boolean noCheckout;
+
     public static void main(final String... args) {
         int exitCode = new CommandLine(new GitClone()).execute(args);
         System.exit(exitCode);
@@ -25,5 +32,13 @@ class GitClone extends AbstractGit {
     @Override
     public File getCloneDirectory() throws Exception {
         return directory;
+    }
+
+    public boolean isBare() {
+        return bare;
+    }
+
+    public boolean isNoCheckout() {
+        return noCheckout;
     }
 }

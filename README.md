@@ -205,20 +205,17 @@ It is like `git clone` but restricted to some files or directories of the reposi
 
 ```console
 $ jbang git-get@grumpyf0x48 --help
-Usage: GitGet [-hnV] [--bare] [--fresh] [-b=<branch>] [-i=<identityFile>]
-              <repository> <directory> <paths>...
+Usage: GitGet [-hV] [--fresh] [-b=<branch>] [-i=<identityFile>] <repository>
+              <directory> <paths>...
 GitGet made with jbang
       <repository>        The repository to clone from
       <directory>         The name of a new directory where to store files
       <paths>...          The file or directory paths to get from the repository
   -b, --branch=<branch>   Branch name
-      --bare              Make a bare Git repository
       --fresh             Make a fresh clone of the repository
   -h, --help              Show this help message and exit.
   -i, --identity=<identityFile>
                           Identity file in PEM format (default: ~/.ssh/id_rsa)
-  -n, --no-checkout       No checkout of HEAD is performed after the clone is
-                            complete
   -V, --version           Print version information and exit.
 ```
 
