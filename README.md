@@ -230,7 +230,7 @@ drwxrwxr-x 3 user user  4096 mars   7 08:24 misc
 drwxrwxr-x 4 user user  4096 mars   7 08:24 src
 ```
 
-Need to add more files to `~/jbang-files` ?
+Need to get more files ?
 
 ```console
 $ jbang git-get@grumpyf0x48 git@github.com:jbangdev/jbang.git ~/jbang-files examples/ LICENSE
@@ -242,3 +242,5 @@ drwxrwxr-x 3 user user  4096 mars   7 08:24 misc
 -rw-rw-r-- 1 user user 54560 mars   7 08:24 readme.adoc
 drwxrwxr-x 4 user user  4096 mars   7 08:24 src
 ```
+
+The previously cloned repository in `System.getProperty("java.io.tmpdir")` will then be re-used.
