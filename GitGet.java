@@ -23,7 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-@Command(name = "GitGet", mixinStandardHelpOptions = true, version = "GitGet 0.1", description = "GitGet made with jbang")
+@Command(name = "GitGet", mixinStandardHelpOptions = true, version = "GitGet 0.1", description = "A command to get one or more files (or directories) from a Git repository")
 class GitGet extends AbstractGit {
 
     @Parameters(arity = "1", index = "1", description = "The name of a new directory where to store files")

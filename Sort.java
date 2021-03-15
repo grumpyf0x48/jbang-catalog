@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.Callable;
 
-@Command(name = "Sort", mixinStandardHelpOptions = true, version = "Sort 0.1", description = "Sort made with jbang")
+@Command(name = "Sort", mixinStandardHelpOptions = true, version = "Sort 0.1", description = "A sample sort program to illustrate Java stream and Array sort use")
 class Sort implements Callable<Integer> {
 
     @Spec

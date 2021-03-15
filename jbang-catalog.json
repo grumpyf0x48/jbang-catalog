@@ -2,15 +2,15 @@
   "aliases": {
     "ssh": {
       "script-ref": "Ssh.java",
-      "description": "A basic SSH client written with Apache Mina, Jbang and Picocli"
+      "description": "A basic SSH client. Written with Apache Mina, Jbang and Picocli"
     },
     "sort": {
       "script-ref": "Sort.java",
-      "description": "A sample sort program to illustrate Java stream and Array sort use written with Jbang and Picocli"
+      "description": "A sample sort program to illustrate Java stream and Array sort use. Written with Jbang and Picocli"
     },
     "links": {
       "script-ref": "Links.java",
-      "description": "A program to retrieve the posts metadata of my former blog archived on https://web.archive.org written with Jsoup, Gson, Jbang and Picocli"
+      "description": "A program to retrieve the posts metadata of my former blog archived on https://web.archive.org. Written with Jsoup, Gson, Jbang and Picocli"
     },
     "html": {
       "script-ref": "Html.java",
@@ -18,7 +18,7 @@
     },
     "sizeof": {
       "script-ref": "SizeOf.java",
-      "description": "A program to display the memory size of Java primitive types and their corresponding wrapper classes. Written with OpenJDL jol, Jbang and Picocli"
+      "description": "A program to display the memory size of Java primitive types and their corresponding wrapper classes. Written with OpenJDK jol, Jbang and Picocli"
     },
     "git-clone": {
       "script-ref": "GitClone.java",

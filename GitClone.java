@@ -12,7 +12,7 @@ import picocli.CommandLine.Parameters;
 
 import java.io.File;
 
-@Command(name = "GitClone", mixinStandardHelpOptions = true, version = "GitClone 0.1", description = "GitClone made with jbang")
+@Command(name = "GitClone", mixinStandardHelpOptions = true, version = "GitClone 0.1", description = "A basic `git clone` replacement in Java")
 class GitClone extends AbstractGit {
 
     @Parameters(arity = "0..1", index = "1", description = "The name of a new directory to clone into")

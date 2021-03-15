@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-@Command(name = "SizeOf", mixinStandardHelpOptions = true, version = "SizeOf 0.1", description = "SizeOf made with jbang and OpenJDK jol")
+@Command(name = "SizeOf", mixinStandardHelpOptions = true, version = "SizeOf 0.1", description = "A program to display the memory size of Java primitive types and their corresponding wrapper classes")
 class SizeOf implements Callable<Integer> {
 
     private static final String[] TYPES = {"byte", "boolean", "char", "short", "int", "float", "long", "double"};

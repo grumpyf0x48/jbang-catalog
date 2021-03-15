@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-@Command(name = "Ssh", mixinStandardHelpOptions = true, version = "Ssh 0.1", description = "Ssh client written with Apache Mina, Jbang and Picocli")
+@Command(name = "Ssh", mixinStandardHelpOptions = true, version = "Ssh 0.1", description = "A basic SSH client")
 class Ssh implements Callable<Integer> {
 
     @Option(names = {"-i", "--identity"}, description = "Identity file")

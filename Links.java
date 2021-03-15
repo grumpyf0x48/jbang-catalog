@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 import static java.time.LocalDateTime.parse;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-@Command(name = "Links", mixinStandardHelpOptions = true, version = "Links 0.1", description = "Links made with jbang")
+@Command(name = "Links", mixinStandardHelpOptions = true, version = "Links 0.1", description = "A program to retrieve the posts metadata of my former blog archived on https://web.archive.org")
 class Links implements Callable<Integer> {
 
     @Option(names = {"-r", "--root-url"}, description = "The root URL to parse on https://web.archive.org (default: ${DEFAULT-VALUE})", defaultValue = "https://web.archive.org/web/20200211042437")
