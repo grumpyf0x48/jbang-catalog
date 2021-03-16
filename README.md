@@ -134,7 +134,7 @@ Written with OpenJDK jol, jbang and Picocli.
 ```console
 $ jbang sizeof@grumpyf0x48 --help
 Usage: SizeOf [-hV] [<types>...]
-A program to display the memory size of Java primitive types and their corresponding wrapper classes.
+A program to display the memory size of Java primitive types and their corresponding wrapper classes
       [<types>...]   The primitive types (default: byte, boolean, char, short,
                        int, float, long, double
   -h, --help         Show this help message and exit.
