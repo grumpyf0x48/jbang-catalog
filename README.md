@@ -244,3 +244,84 @@ drwxrwxr-x 4 user user  4096 mars   7 08:24 src
 ```
 
 The previously cloned repository in `System.getProperty("java.io.tmpdir")` will then be re-used.
+
+## WhatsNewInJava
+
+A program to list new methods added in the JDK for a given list of classes.
+
+By default `WhatsNewInJava` lists new methods added in the 9, 10 and 11 JDK releases.
+
+This program needs the JDK sources to work:
+
+```console
+sudo apt-get install openjdk-11-source
+cd /usr/lib/jvm/openjdk-11
+sudo unzip src.zip
+```
+It uses Java `Stream` functionality, illustrates `Spliterator` usage and makes use of some of Java 11 features.
+
+Written with Java 11, JBang and Picocli.
+
+```console
+$ jbang WhatsNewInJava@grumpyf0x48 --help
+Usage: WhatsNewInJava [-hvV] [--not-modified] [-m=<module>] [-s=release]...
+                      <sourcesPath> <classNames>...
+Display methods added to a Java class in a given JDK release
+      <sourcesPath>       JDK sources path
+      <classNames>...     Class names
+  -h, --help              Show this help message and exit.
+  -m, --module=<module>   Module (java.base, java.desktop, java.logging ...)
+                            where to search classes (default: java.base)
+      --not-modified      Show not modified classes (default: false)
+  -s, --since=release     JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)
+  -v, --verbose           Activate verbose mode (default: false)
+  -V, --version           Print version information and exit.
+```
+
+### Sample use
+
+Lists the changes made for `Stream` feature in Java 8 for `Iterable`, `Collection` and `List` classes:
+
+```console
+$ jbang WhatsNewInJava@grumpyf0x48 --since 1.8 /usr/lib/jvm/openjdk-11 java.lang.Iterable java.util.Collection java.util.List
+public interface Iterable<T> // since 1.5
+{
+    default void forEach(Consumer<? super T> action); // since 1.8
+    default Spliterator<T> spliterator(); // since 1.8
+}
+
+public interface Collection<E> extends Iterable<E> // since 1.2
+{
+    default boolean removeIf(Predicate<? super E> filter); // since 1.8
+    default Spliterator<E> spliterator(); // since 1.8
+    default Stream<E> stream(); // since 1.8
+    default Stream<E> parallelStream(); // since 1.8
+}
+
+public interface List<E> extends Collection<E> // since 1.2
+{
+    default void replaceAll(UnaryOperator<E> operator); // since 1.8
+    default void sort(Comparator<? super E> c); // since 1.8
+    default Spliterator<E> spliterator(); // since 1.8
+```
+
+Lists `Optional` and `Stream` changes made after Java 1.8:
+
+```console
+$ jbang WhatsNewInJava@grumpyf0x48 /usr/lib/jvm/openjdk-11 java.util.Optional java.util.stream.Stream
+public final class Optional<T> // since 1.8
+{
+    public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
+    public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier); // since 9
+    public Stream<T> stream(); // since 9
+    public T orElseThrow(); // since 10
+}
+
+public interface Stream<T> extends BaseStream<T, Stream<T>> // since 1.8
+{
+    default Stream<T> takeWhile(Predicate<? super T> predicate); // since 9
+    default Stream<T> dropWhile(Predicate<? super T> predicate); // since 9
+    public static<T> Stream<T> ofNullable(T t); // since 9
+    public static<T> Stream<T> iterate(T seed, Predicate<? super T> hasNext, UnaryOperator<T> next); // since 9
+}
+```

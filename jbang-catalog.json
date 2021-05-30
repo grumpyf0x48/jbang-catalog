@@ -27,6 +27,10 @@
     "git-get": {
       "script-ref": "GitGet.java",
       "description": "A command to get one or more files (or directories) from a Git repository. Written with jGit, Jbang and Picocli"
+    },
+    "whats-new-in-java": {
+      "script-ref": "WhatsNewInJava.java",
+      "description": "A command Display methods added to a Java class in a given JDK release. Written with Java 11, JBang and Picocli"
     }
   }
 }
