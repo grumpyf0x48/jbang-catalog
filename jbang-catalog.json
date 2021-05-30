@@ -30,7 +30,7 @@
     },
     "whats-new-in-java": {
       "script-ref": "WhatsNewInJava.java",
-      "description": "A command Display methods added to a Java class in a given JDK release. Written with Java 11, JBang and Picocli"
+      "description": "A command to display methods added to a Java class in a given JDK release. Written with Java 11, JBang and Picocli"
     }
   }
 }
