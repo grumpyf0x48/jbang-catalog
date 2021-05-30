@@ -303,6 +303,7 @@ public interface List<E> extends Collection<E> // since 1.2
     default void replaceAll(UnaryOperator<E> operator); // since 1.8
     default void sort(Comparator<? super E> c); // since 1.8
     default Spliterator<E> spliterator(); // since 1.8
+}
 ```
 
 Lists `Optional` and `Stream` changes introduced in Java 9:
