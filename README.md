@@ -264,18 +264,22 @@ Written with Java 11, JBang and Picocli.
 
 ```console
 $ jbang whats-new-in-java@grumpyf0x48 --help
-Usage: WhatsNewInJava [-hvV] [--not-modified] [-m=<module>] [-s=release]...
-                      <sourcesPath> <classNames>...
+Usage: WhatsNewInJava [-achvV] [-m=<module>] [-s=release]... <sourcesPath>
+                      <classNames>...
 Display methods added to a Java class in a given JDK release
-      <sourcesPath>       JDK sources path
-      <classNames>...     Class names
-  -h, --help              Show this help message and exit.
-  -m, --module=<module>   Module (java.base, java.desktop, java.logging ...)
-                            where to search classes (default: java.base)
-      --not-modified      Show not modified classes (default: false)
-  -s, --since=release     JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)
-  -v, --verbose           Activate verbose mode (default: false)
-  -V, --version           Print version information and exit.
+      <sourcesPath>        JDK sources path
+      <classNames>...      Class names or regexps
+  -a, --not-modified-classes
+                           Show all classes even not modified ones (default:
+                             false)
+  -c, --only-class-names   Show only names of modified classes, not their
+                             methods (default: false)
+  -h, --help               Show this help message and exit.
+  -m, --module=<module>    Module (java.base, java.desktop, java.logging ...)
+                             where to search classes (default: java.base)
+  -s, --since=release      JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)
+  -v, --verbose            Activate verbose mode (default: false)
+  -V, --version            Print version information and exit.
 ```
 
 ### Sample use
