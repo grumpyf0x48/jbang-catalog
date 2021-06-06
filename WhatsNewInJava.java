@@ -54,6 +54,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        // since 10
         var searchFile = new File(sourcesPath, module);
         if (!searchFile.exists()) {
             System.err.println("Folder does not exist: " + searchFile);
@@ -106,6 +107,7 @@ class WhatsNewInJava implements Callable<Integer> {
     }
 
     private boolean isJavaFile(final Path path) {
+        // since 10
         var stringPath = path.toString();
         return Files.isRegularFile(path) &&
                 stringPath.endsWith(".java") &&
@@ -142,7 +144,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
         @Override
         public boolean tryAdvance(final Consumer<? super JavaMethod> action) {
-            if (innerAdvanceWhile(Predicate.not(currentLine -> currentLine.contains("@since")))) {
+            if (innerAdvanceWhile(Predicate.not(/* since 11 */currentLine -> currentLine.contains("@since")))) {
                 return false;
             }
             final String since = line;
@@ -199,9 +201,16 @@ class WhatsNewInJava implements Callable<Integer> {
         private String release;
 
         private JavaMethod(final String signature, final String since, final boolean constructor) {
-            this.signature = signature.strip().replace("{", "").stripTrailing();
+            this.signature = signature
+                    .strip() // since 11
+                    .replace("{", "")
+                    .stripTrailing(); // since 11
             this.constructor = constructor;
-            final String[] strings = since.strip().replace("*", "").stripLeading().split(" ");
+            final String[] strings = since
+                    .strip()
+                    .replace("*", "")
+                    .stripLeading() // since 11
+                    .split(" ");
             if (strings.length > 1) {
                 release = strings[1];
             }
