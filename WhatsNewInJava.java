@@ -82,7 +82,7 @@ class WhatsNewInJava implements Callable<Integer> {
     }
 
     private Collection<Path> getPaths() throws IOException {
-        try (final Stream<Path> pathStream = Files.walk(Paths.get(searchPath), 8)) {
+        try (final Stream<Path> pathStream = Files.walk(/* since 1.8 */Paths.get(searchPath), 8)) {
             return pathStream
                     .filter(path -> isJavaFile(path) && matchesSearch(path))
                     .collect(Collectors.toList());
@@ -96,7 +96,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private Collection<JavaMethod> getMethods(final Path path) {
         try {
-            try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaSinceIterator(Files.lines(path).spliterator()), false)) {
+            try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaSinceIterator(Files.lines(/* since 1.8 */path).spliterator()), false)) {
                 return methodStream
                         .filter(method -> method.constructor || method.isNewInReleases(releases))
                         .collect(Collectors.toList());
