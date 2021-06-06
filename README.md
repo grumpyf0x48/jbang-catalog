@@ -264,7 +264,7 @@ Written with Java 11, JBang and Picocli.
 
 ```console
 $ jbang whats-new-in-java@grumpyf0x48 --help
-Usage: WhatsNewInJava [-achvV] [-m=<module>] [-s=release]... <sourcesPath>
+Usage: WhatsNewInJava [-achvV] [-m=<module>] [-r=release]... <sourcesPath>
                       <classNames>...
 Display methods added to a Java class in a given JDK release
       <sourcesPath>        JDK sources path
