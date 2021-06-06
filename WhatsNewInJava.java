@@ -48,14 +48,14 @@ class WhatsNewInJava implements Callable<Integer> {
     String searchPath;
 
     public static void main(final String... args) {
-        int exitCode = new CommandLine(new WhatsNewInJava()).execute(args);
+        final int exitCode = new CommandLine(new WhatsNewInJava()).execute(args);
         System.exit(exitCode);
     }
 
     @Override
     public Integer call() {
         // since 10
-        var searchFile = new File(sourcesPath, module);
+        final var searchFile = new File(sourcesPath, module);
         if (!searchFile.exists()) {
             System.err.println("Folder does not exist: " + searchFile);
             return 1;
@@ -108,7 +108,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private boolean isJavaFile(final Path path) {
         // since 10
-        var stringPath = path.toString();
+        final var stringPath = path.toString();
         return Files.isRegularFile(path) &&
                 stringPath.endsWith(".java") &&
                 !stringPath.endsWith("module-info.java") &&
