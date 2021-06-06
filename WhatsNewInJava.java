@@ -24,7 +24,7 @@ import picocli.CommandLine.Parameters;
 @Command(name = "WhatsNewInJava", mixinStandardHelpOptions = true, version = "WhatsNewInJava 0.1", description = "Display methods added to a Java class in a given JDK release")
 class WhatsNewInJava implements Callable<Integer> {
 
-    @Option(names = {"--since", "-s"}, paramLabel = "release", description = "JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)")
+    @Option(names = {"--release", "-r"}, paramLabel = "release", description = "JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)")
     String[] releases = new String[]{"9", "10", "11"};
 
     @Parameters(index = "0", description = "JDK sources path")

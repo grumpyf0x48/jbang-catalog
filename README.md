@@ -277,17 +277,37 @@ Display methods added to a Java class in a given JDK release
   -h, --help               Show this help message and exit.
   -m, --module=<module>    Module (java.base, java.desktop, java.logging ...)
                              where to search classes (default: java.base)
-  -s, --since=release      JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)
+  -r, --release=release    JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)
   -v, --verbose            Activate verbose mode (default: false)
   -V, --version            Print version information and exit.
 ```
 
 ### Sample use
 
+Lists the changes introduced to `java.nio.file.*` in Java 8:
+
+```console
+$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 1.8 java.nio.file.*
+public final class Files // since 1.7
+{
+    public static BufferedReader newBufferedReader(Path path) throws IOException; // since 1.8
+    public static BufferedWriter newBufferedWriter(Path path, OpenOption... options); // since 1.8
+    public static List<String> readAllLines(Path path) throws IOException; // since 1.8
+    public static Path write(Path path,; // since 1.8
+    public static Stream<String> lines(Path path) throws IOException; // since 1.8
+}
+
+public final class FileTime // since 1.7
+{
+    public static FileTime from(Instant instant); // since 1.8
+    public Instant toInstant(); // since 1.8
+}
+```
+
 Lists the changes made for `Stream` feature in Java 8 for `Iterable`, `Collection` and `List` classes:
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 --since 1.8 /usr/lib/jvm/openjdk-11 java.lang.Iterable java.util.Collection java.util.List
+$ jbang whats-new-in-java@grumpyf0x48 --release 1.8 /usr/lib/jvm/openjdk-11 java.lang.Iterable java.util.Collection java.util.List
 public interface Iterable<T> // since 1.5
 {
     default void forEach(Consumer<? super T> action); // since 1.8
@@ -313,7 +333,7 @@ public interface List<E> extends Collection<E> // since 1.2
 Lists `Optional` and `Stream` changes introduced in Java 9:
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --since 9 java.util.Optional java.util.stream.Stream
+$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 9 java.util.Optional java.util.stream.Stream
 public final class Optional<T> // since 1.8
 {
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
