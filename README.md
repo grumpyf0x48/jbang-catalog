@@ -284,10 +284,13 @@ Display methods added to a Java class in a given JDK release
 
 ### Sample use
 
-Lists the changes introduced to `java.nio.file.*` in Java 8:
+Lists the changes introduced to `java.nio.file` package in Java 8:
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 1.8 java.nio.file.*
+$ jbang whats-new-in-java@grumpyf0x48 \
+    /usr/lib/jvm/openjdk-11 \
+    --release 1.8 \
+    java.nio.file.*
 public final class Files // since 1.7
 {
     public static BufferedReader newBufferedReader(Path path) throws IOException; // since 1.8
@@ -307,7 +310,10 @@ public final class FileTime // since 1.7
 Lists the changes made for `Stream` feature in Java 8 for `Iterable`, `Collection` and `List` classes:
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 --release 1.8 /usr/lib/jvm/openjdk-11 java.lang.Iterable java.util.Collection java.util.List
+$ jbang whats-new-in-java@grumpyf0x48 \
+    /usr/lib/jvm/openjdk-11 \
+    --release 1.8 \
+    java.lang.Iterable java.util.Collection java.util.List
 public interface Iterable<T> // since 1.5
 {
     default void forEach(Consumer<? super T> action); // since 1.8
@@ -330,15 +336,18 @@ public interface List<E> extends Collection<E> // since 1.2
 }
 ```
 
-Lists `Optional` and `Stream` changes introduced in Java 9:
+Lists `Optional` and `Stream` changes introduced since Java 8:
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 9 java.util.Optional java.util.stream.Stream
+$ jbang whats-new-in-java@grumpyf0x48 \
+    /usr/lib/jvm/openjdk-11 \
+    java.util.Optional java.util.stream.Stream
 public final class Optional<T> // since 1.8
 {
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
     public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier); // since 9
     public Stream<T> stream(); // since 9
+    public T orElseThrow(); // since 10
 }
 
 public interface Stream<T> extends BaseStream<T, Stream<T>> // since 1.8
