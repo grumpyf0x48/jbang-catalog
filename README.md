@@ -350,3 +350,47 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> // since 1.8
     public static<T> Stream<T> iterate(T seed, Predicate<? super T> hasNext, UnaryOperator<T> next); // since 9
 }
 ```
+
+Lists the changes in the `java.time` package introduced in Java 9:
+
+```console
+$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 9 java.util.time.*
+
+...
+
+public final class LocalDate // since 1.8
+{
+    public static LocalDate ofInstant(Instant instant, ZoneId zone); // since 9
+    public Stream<LocalDate> datesUntil(LocalDate endExclusive); // since 9
+    public Stream<LocalDate> datesUntil(LocalDate endExclusive, Period step); // since 9
+    public long toEpochSecond(LocalTime time, ZoneOffset offset); // since 9
+}
+
+public final class LocalTime // since 1.8
+{
+    public static LocalTime ofInstant(Instant instant, ZoneId zone); // since 9
+    public long toEpochSecond(LocalDate date, ZoneOffset offset); // since 9
+}
+
+...
+
+public final class Duration // since 1.8
+{
+    public long dividedBy(Duration divisor); // since 9
+    public long toSeconds(); // since 9
+    public long toDaysPart(); // since 9
+    public int toHoursPart(); // since 9
+    public int toMinutesPart(); // since 9
+    public int toSecondsPart(); // since 9
+    public int toMillisPart(); // since 9
+    public int toNanosPart(); // since 9
+    public Duration truncatedTo(TemporalUnit unit); // since 9
+}
+
+...
+
+public abstract class Clock // since 1.8
+{
+    public static Clock tickMillis(ZoneId zone); // since 9
+}
+```
