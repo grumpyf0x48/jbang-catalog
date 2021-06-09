@@ -2,6 +2,19 @@
 
 My collection of [jbang](https://www.jbang.dev) scripts.
 
+How to [install JBang](#install-jbang).
+
+## Table of contents
+
+- [Ssh](#ssh)
+- [Sort](#sort)
+- [Links](#links)
+- [Html](#html)
+- [SizeOf](#sizeof)
+- [GitClone](#gitclone)
+- [GitGet](#gitget)
+- [WhatsNewInJava](#whatsnewinjava)
+
 ## Install jbang
 
 ```console
