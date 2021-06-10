@@ -242,7 +242,15 @@ class WhatsNewInJava implements Callable<Integer> {
 
         @Override
         public String toString() {
-            return signature + (constructor ? "" : ";") + " // since " + release;
+            final StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(signature);
+            if (constructor) {
+                stringBuilder.append(";");
+            }
+            if (!"".equals(release)) {
+                stringBuilder.append(" // since ").append(release);
+            }
+            return stringBuilder.toString();
         }
 
         public String toStringIndented() {
