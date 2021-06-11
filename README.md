@@ -15,7 +15,7 @@ How to [install JBang](#install-jbang).
 - [GitGet](#gitget)
 - [WhatsNewInJava](#whatsnewinjava)
     + [Lists the changes made for `Stream` feature in Java 8 for `Iterable`, `Collection` and `List` classes](#lists-the-changes-made-for-stream-feature-in-java-8-for-iterable-collection-and-list-classes)
-    + [Lists `Optional` and `Stream` changes introduced since Java 8](#lists-optional-and-stream-changes-introduced-since-java-8)
+    + [Lists `Optional`, `Stream` and `Collectors` changes introduced since Java 8](#lists-optional-stream-and-collectors-changes-introduced-since-java-8)
     + [Lists the changes introduced to `java.nio.file` package in Java 8](#lists-the-changes-introduced-to-javaniofile-package-in-java-8)
     + [Lists the changes made to `java.lang.Process` in Java 9](#lists-the-changes-made-to-javalangprocess-in-java-9)
     + [Lists the changes in the `java.time` package introduced in Java 9](#lists-the-changes-in-the-javatime-package-introduced-in-java-9)
@@ -329,10 +329,10 @@ public interface List<E> extends Collection<E> // since 1.2
 }
 ```
 
-#### Lists `Optional` and `Stream` changes introduced since Java 8
+#### Lists `Optional`, `Stream` and `Collectors` changes introduced since Java 8
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 java.util.Optional java.util.stream.Stream
+$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 java.util.Optional java.util.stream.Stream java.util.stream.Collectors
 public final class Optional<T> // since 1.8
 {
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
@@ -347,6 +347,16 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> // since 1.8
     default Stream<T> dropWhile(Predicate<? super T> predicate); // since 9
     public static<T> Stream<T> ofNullable(T t); // since 9
     public static<T> Stream<T> iterate(T seed, Predicate<? super T> hasNext, UnaryOperator<T> next); // since 9
+}
+
+public final class Collectors // since 1.8
+{
+    public static <T> Collector<T, ?, List<T>> toUnmodifiableList(); // since 10
+    public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet(); // since 10
+    public static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper, Collector<? super U, A, R> downstream); // since 9
+    public static <T, A, R> Collector<T, ?, R> filtering(Predicate<? super T> predicate, Collector<? super T, A, R> downstream); // since 9
+    public static <T, K, U> Collector<T, ?, Map<K,U>> toUnmodifiableMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper); // since 10
+    public static <T, K, U> Collector<T, ?, Map<K,U>> toUnmodifiableMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction); // since 10
 }
 ```
 

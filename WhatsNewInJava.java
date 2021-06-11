@@ -98,7 +98,7 @@ class WhatsNewInJava implements Callable<Integer> {
         try {
             try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaSinceIterator(Files.lines(/* since 1.8 */path).spliterator()), false)) {
                 return methodStream
-                        .filter(method -> method.constructor || method.isNewInReleases(releases))
+                        .filter(method -> method.declaration || method.isNewInReleases(releases))
                         .collect(Collectors.toList());
             }
         } catch (final IOException exception) {
@@ -111,8 +111,7 @@ class WhatsNewInJava implements Callable<Integer> {
         final var stringPath = path.toString();
         return Files.isRegularFile(path) &&
                 stringPath.endsWith(".java") &&
-                !stringPath.endsWith("module-info.java") &&
-                !stringPath.endsWith("package-info.java");
+                !stringPath.endsWith("-info.java");
     }
 
     private boolean matchesSearch(final Path path) {
@@ -136,7 +135,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private final Spliterator<String> lineSpliterator;
         private String line;
-        private boolean constructor = true;
+        private boolean declaration = true;
 
         public JavaSinceIterator(final Spliterator<String> lineSpliterator) {
             this.lineSpliterator = lineSpliterator;
@@ -155,18 +154,19 @@ class WhatsNewInJava implements Callable<Integer> {
             if (line.isEmpty() && innerAdvanceWhile(String::isEmpty)) {
                 return false;
             }
+
             String signature = line;
-            // constructor declaration uses 2 lines
-            if (constructor && signature.contains("public") && !signature.contains("class") && !signature.contains("interface")) {
+            // class or method declaration uses several lines
+            while (!isComplete(signature)) {
                 if (!lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) {
                     return false;
                 }
-                signature += " " + line;
+                signature += " " + line.stripLeading();
             }
 
-            action.accept(new JavaMethod(signature, since, constructor));
-            if (constructor) {
-                constructor = false;
+            action.accept(new JavaMethod(signature, since, declaration));
+            if (declaration) {
+                declaration = false;
             }
             return true;
         }
@@ -176,6 +176,13 @@ class WhatsNewInJava implements Callable<Integer> {
             while ((advanced = lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) && predicate.test(line))
                 ;
             return !advanced;
+        }
+
+        private boolean isComplete(final String signature) {
+            if (declaration) {
+                return signature.contains("class") || signature.contains("interface") || signature.contains("enum");
+            }
+            return signature.contains("{");
         }
 
         @Override
@@ -197,15 +204,15 @@ class WhatsNewInJava implements Callable<Integer> {
     private static class JavaMethod {
 
         private final String signature;
-        private final boolean constructor;
-        private String release;
+        private final boolean declaration;
+        private String release = "";
 
-        private JavaMethod(final String signature, final String since, final boolean constructor) {
+        private JavaMethod(final String signature, final String since, final boolean declaration) {
             this.signature = signature
                     .strip() // since 11
                     .replace("{", "")
                     .stripTrailing(); // since 11
-            this.constructor = constructor;
+            this.declaration = declaration;
             final String[] strings = since
                     .strip()
                     .replace("*", "")
@@ -229,8 +236,8 @@ class WhatsNewInJava implements Callable<Integer> {
                 return Optional.empty();
             }
             if (showOnlyClassNames) {
-                final JavaMethod constructor = methods.iterator().next();
-                return Optional.of(constructor.toString());
+                final JavaMethod declaration = methods.iterator().next();
+                return Optional.of(declaration.toString());
             } else {
                 return Optional.of(JavaMethod.toString(methods));
             }
@@ -244,17 +251,17 @@ class WhatsNewInJava implements Callable<Integer> {
         public String toString() {
             final StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(signature);
-            if (constructor) {
+            if (!declaration) {
                 stringBuilder.append(";");
             }
-            if (!"".equals(release)) {
+            if (!release.isBlank()) {
                 stringBuilder.append(" // since ").append(release);
             }
             return stringBuilder.toString();
         }
 
         public String toStringIndented() {
-            return constructor ? (this + "\n{") : ("\t" + this);
+            return declaration ? (this + "\n{") : ("\t" + this);
         }
     }
 }
