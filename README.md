@@ -18,7 +18,7 @@ How to [install JBang](#install-jbang).
     + [Lists `Optional`, `Stream` and `Collectors` changes introduced since Java 8](#lists-optional-stream-and-collectors-changes-introduced-since-java-8)
     + [Lists the changes introduced to `java.nio.file` package in Java 8](#lists-the-changes-introduced-to-javaniofile-package-in-java-8)
     + [Lists the changes made to `java.lang.Process` in Java 9](#lists-the-changes-made-to-javalangprocess-in-java-9)
-    + [Lists the changes in the `java.time` package introduced in Java 9](#lists-the-changes-in-the-javatime-package-introduced-in-java-9)
+    + [Lists the classes having changed in Java 9 in the `java.time` package](#lists-the-classes-having-changed-in-java-9-in-the-javatime-package)
     + [List the changes made in Java 11 for strings](#list-the-changes-made-in-java-11-for-strings)
 
 ## Install JBang
@@ -291,6 +291,8 @@ Display methods added to a Java class in a given JDK release
   -a, --not-modified-classes
                            Show all classes even not modified ones (default:
                              false)
+  -b, --show-abstract-classes
+                           Show abstract classes (default: false)
   -c, --only-class-names   Show only names of modified classes, not their
                              methods (default: false)
   -h, --help               Show this help message and exit.
@@ -367,9 +369,9 @@ $ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 1.8 java
 public final class Files // since 1.7
 {
     public static BufferedReader newBufferedReader(Path path) throws IOException; // since 1.8
-    public static BufferedWriter newBufferedWriter(Path path, OpenOption... options); // since 1.8
+    public static BufferedWriter newBufferedWriter(Path path, OpenOption... options) throws IOException; // since 1.8
     public static List<String> readAllLines(Path path) throws IOException; // since 1.8
-    public static Path write(Path path,; // since 1.8
+    public static Path write(Path path, Iterable<? extends CharSequence> lines, OpenOption... options) throws IOException; // since 1.8
     public static Stream<String> lines(Path path) throws IOException; // since 1.8
 }
 
@@ -383,7 +385,7 @@ public final class FileTime // since 1.7
 #### Lists the changes made to `java.lang.Process` in Java 9
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 9 java.lang.Process java.lang.ProcessHandle
+$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --show-abstract-classes --release 9 java.lang.Process java.lang.ProcessHandle
 public interface ProcessHandle extends Comparable<ProcessHandle> // since 9
 {
     public interface Info; // since 9
@@ -401,71 +403,40 @@ public abstract class Process
 }
 ```
 
-#### Lists the changes in the `java.time` package introduced in Java 9
+#### Lists the classes having changed in Java 9 in the `java.time` package
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 9 java.util.time.*
-
-...
-
+$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --only-class-names --release 9 java.time.*
+public final class OffsetTime // since 1.8
 public final class LocalDate // since 1.8
-{
-    public static LocalDate ofInstant(Instant instant, ZoneId zone); // since 9
-    public Stream<LocalDate> datesUntil(LocalDate endExclusive); // since 9
-    public Stream<LocalDate> datesUntil(LocalDate endExclusive, Period step); // since 9
-    public long toEpochSecond(LocalTime time, ZoneOffset offset); // since 9
-}
-
 public final class LocalTime // since 1.8
-{
-    public static LocalTime ofInstant(Instant instant, ZoneId zone); // since 9
-    public long toEpochSecond(LocalDate date, ZoneOffset offset); // since 9
-}
-
-...
-
+public final class DateTimeFormatterBuilder // since 1.8
 public final class Duration // since 1.8
-{
-    public long dividedBy(Duration divisor); // since 9
-    public long toSeconds(); // since 9
-    public long toDaysPart(); // since 9
-    public int toHoursPart(); // since 9
-    public int toMinutesPart(); // since 9
-    public int toSecondsPart(); // since 9
-    public int toMillisPart(); // since 9
-    public int toNanosPart(); // since 9
-    public Duration truncatedTo(TemporalUnit unit); // since 9
-}
-
-...
-
-public abstract class Clock // since 1.8
-{
-    public static Clock tickMillis(ZoneId zone); // since 9
-}
+public interface Chronology extends Comparable<Chronology> // since 1.8
+public final class IsoChronology extends AbstractChronology implements Serializable // since 1.8
 ```
 
 #### List the changes made in Java 11 for strings
 
 ```console
 $ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 11 java.lang.String.*
-public final class String;
+public final class String
 {
-    public String strip() // since 11
-    public String stripLeading() // since 11
-    public String stripTrailing() // since 11
-    public boolean isBlank() // since 11
-    public Stream<String> lines() // since 11
-    public String repeat(int count) // since 11
+    public String strip(); // since 11
+    public String stripLeading(); // since 11
+    public String stripTrailing(); // since 11
+    public boolean isBlank(); // since 11
+    public Stream<String> lines(); // since 11
+    public String repeat(int count); // since 11
 }
 
-public final class StringBuilder;
+public final class StringBuilder
 {
-    public int compareTo(StringBuilder another) // since 11
+    public int compareTo(StringBuilder another); // since 11
 }
 
-public final class StringBuffer;
+public final class StringBuffer
 {
-    public synchronized int compareTo(StringBuffer another) // since 11
+    public synchronized int compareTo(StringBuffer another); // since 11
 }
 ```

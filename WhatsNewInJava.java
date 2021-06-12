@@ -42,6 +42,9 @@ class WhatsNewInJava implements Callable<Integer> {
     @Option(names = {"--only-class-names", "-c"}, defaultValue = "false", description = "Show only names of modified classes, not their methods (default: ${DEFAULT-VALUE})")
     boolean showOnlyClassNames;
 
+    @Option(names = {"--show-abstract-classes", "-b"}, defaultValue = "false", description = "Show abstract classes (default: ${DEFAULT-VALUE})")
+    boolean showAbstractClasses;
+
     @Option(names = {"--verbose", "-v"}, defaultValue = "false", description = "Activate verbose mode (default: ${DEFAULT-VALUE})")
     boolean verbose;
 
@@ -131,7 +134,7 @@ class WhatsNewInJava implements Callable<Integer> {
                 .replaceAll(".java$", "");
     }
 
-    private static class JavaSinceIterator implements Spliterator<JavaMethod> {
+    private class JavaSinceIterator implements Spliterator<JavaMethod> {
 
         private final Spliterator<String> lineSpliterator;
         private String line;
@@ -156,6 +159,10 @@ class WhatsNewInJava implements Callable<Integer> {
             }
 
             String signature = line;
+            if (!showAbstractClasses && signature.contains("abstract")) {
+                return false;
+            }
+
             // class or method declaration uses several lines
             while (!isComplete(signature)) {
                 if (!lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) {
