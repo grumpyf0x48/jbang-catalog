@@ -99,7 +99,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private Collection<JavaMethod> getMethods(final Path path) {
         try {
-            try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaSinceIterator(Files.lines(/* since 1.8 */path).spliterator()), false)) {
+            try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaMethodIterator(Files.lines(/* since 1.8 */path).spliterator()), false)) {
                 return methodStream
                         .filter(method -> method.declaration || method.isNewInReleases(releases))
                         .collect(Collectors.toList());
@@ -134,13 +134,13 @@ class WhatsNewInJava implements Callable<Integer> {
                 .replaceAll(".java$", "");
     }
 
-    private class JavaSinceIterator implements Spliterator<JavaMethod> {
+    private class JavaMethodIterator implements Spliterator<JavaMethod> {
 
         private final Spliterator<String> lineSpliterator;
         private String line;
         private boolean declaration = true;
 
-        public JavaSinceIterator(final Spliterator<String> lineSpliterator) {
+        public JavaMethodIterator(final Spliterator<String> lineSpliterator) {
             this.lineSpliterator = lineSpliterator;
         }
 

@@ -2,10 +2,9 @@
 
 My collection of [JBang](https://www.jbang.dev) scripts.
 
-How to [install JBang](#install-jbang).
-
 ## Table of contents
 
+- [Install JBang](#install-jbang)
 - [Ssh](#ssh)
 - [Sort](#sort)
 - [Links](#links)
@@ -20,6 +19,7 @@ How to [install JBang](#install-jbang).
     + [Lists the changes made to `java.lang.Process` in Java 9](#lists-the-changes-made-to-javalangprocess-in-java-9)
     + [Lists the classes having changed in Java 9 in the `java.time` package](#lists-the-classes-having-changed-in-java-9-in-the-javatime-package)
     + [List the changes made in Java 11 for strings](#list-the-changes-made-in-java-11-for-strings)
+- [Install completion for a JBang script](#install-completion-for-a-jbang-script)
 
 ## Install JBang
 
@@ -439,4 +439,13 @@ public final class StringBuffer
 {
     public synchronized int compareTo(StringBuffer another); // since 11
 }
+```
+
+## Install completion for a JBang script
+
+For example `WhatsNewInJava`:
+
+```console
+java -classpath $(jbang info classpath WhatsNewInJava.java) picocli.AutoComplete -n WhatsNewInJava.java WhatsNewInJava
+sudo cp WhatsNewInJava.java_completion /etc/bash_completion.d
 ```
