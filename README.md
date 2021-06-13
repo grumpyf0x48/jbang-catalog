@@ -283,10 +283,9 @@ Written with Java 11, JBang and Picocli.
 
 ```console
 $ jbang whats-new-in-java@grumpyf0x48 --help
-Usage: WhatsNewInJava [-achvV] [-m=<module>] [-r=release]... <sourcesPath>
-                      <classNames>...
+Usage: WhatsNewInJava [-abchvV] [-m=<module>] [-s=<sourcesPath>]
+                      [-r=release]... <classNames>...
 Display methods added to a Java class in a given JDK release
-      <sourcesPath>        JDK sources path
       <classNames>...      Class names or regexps
   -a, --not-modified-classes
                            Show all classes even not modified ones (default:
@@ -298,7 +297,10 @@ Display methods added to a Java class in a given JDK release
   -h, --help               Show this help message and exit.
   -m, --module=<module>    Module (java.base, java.desktop, java.logging ...)
                              where to search classes (default: java.base)
-  -r, --release=release    JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)
+  -r, --release=release    JDK release (1.8, 9, 10, 11 ... or ALL) (default: 9,
+                             10, 11)
+  -s, --source-path=<sourcesPath>
+                           JDK sources path (default: /usr/lib/jvm/openjdk-11)
   -v, --verbose            Activate verbose mode (default: false)
   -V, --version            Print version information and exit.
 ```
@@ -308,7 +310,7 @@ Display methods added to a Java class in a given JDK release
 #### Lists the changes made for `Stream` feature in Java 8 for `Iterable`, `Collection` and `List` classes
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 1.8 java.lang.Iterable java.util.Collection java.util.List
+$ jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 1.8 java.lang.Iterable java.util.Collection java.util.List
 public interface Iterable<T> // since 1.5
 {
     default void forEach(Consumer<? super T> action); // since 1.8
@@ -334,7 +336,7 @@ public interface List<E> extends Collection<E> // since 1.2
 #### Lists `Optional`, `Stream` and `Collectors` changes introduced since Java 8
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 java.util.Optional java.util.stream.Stream java.util.stream.Collectors
+$ jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 java.util.Optional java.util.stream.Stream java.util.stream.Collectors
 public final class Optional<T> // since 1.8
 {
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
@@ -365,7 +367,7 @@ public final class Collectors // since 1.8
 #### Lists the changes introduced to `java.nio.file` package in Java 8
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 1.8 java.nio.file.*
+$ jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 1.8 java.nio.file.*
 public final class Files // since 1.7
 {
     public static BufferedReader newBufferedReader(Path path) throws IOException; // since 1.8
@@ -385,7 +387,7 @@ public final class FileTime // since 1.7
 #### Lists the changes made to `java.lang.Process` in Java 9
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --show-abstract-classes --release 9 java.lang.Process java.lang.ProcessHandle
+$ jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --show-abstract-classes --release 9 java.lang.Process java.lang.ProcessHandle
 public interface ProcessHandle extends Comparable<ProcessHandle> // since 9
 {
     public interface Info; // since 9
@@ -406,7 +408,7 @@ public abstract class Process
 #### Lists the classes having changed in Java 9 in the `java.time` package
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --only-class-names --release 9 java.time.*
+$ jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --only-class-names --release 9 java.time.*
 public final class OffsetTime // since 1.8
 public final class LocalDate // since 1.8
 public final class LocalTime // since 1.8
@@ -419,7 +421,7 @@ public final class IsoChronology extends AbstractChronology implements Serializa
 #### List the changes made in Java 11 for strings
 
 ```console
-$ jbang whats-new-in-java@grumpyf0x48 /usr/lib/jvm/openjdk-11 --release 11 java.lang.String.*
+$ jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 11 java.lang.String.*
 public final class String
 {
     public String strip(); // since 11

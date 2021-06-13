@@ -27,13 +27,13 @@ class WhatsNewInJava implements Callable<Integer> {
     @Option(names = {"--release", "-r"}, paramLabel = "release", description = "JDK release (1.8, 9, 10, 11 ... or ALL) (default: 9, 10, 11)")
     JavaRelease[] releases = new JavaRelease[] {JavaRelease.JAVA_9, JavaRelease.JAVA_10, JavaRelease.JAVA_11};
 
-    @Parameters(index = "0", description = "JDK sources path")
-    String sourcesPath;
+    @Option(names = {"--source-path", "-s"}, defaultValue = "/usr/lib/jvm/openjdk-11", description = "JDK sources path (default: ${DEFAULT-VALUE})")
+    File sourcesPath;
 
     @Option(names = {"--module", "-m"}, defaultValue = "java.base", description = "Module (java.base, java.desktop, java.logging ...) where to search classes (default: ${DEFAULT-VALUE})")
     String module;
 
-    @Parameters(arity = "1..n", index = "1..n", description = "Class names or regexps")
+    @Parameters(arity = "1..n", index = "0..n", description = "Class names or regexps")
     String[] classNames;
 
     @Option(names = {"--not-modified-classes", "-a"}, defaultValue = "false", description = "Show all classes even not modified ones (default: ${DEFAULT-VALUE})")
