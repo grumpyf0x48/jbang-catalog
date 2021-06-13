@@ -25,7 +25,7 @@ import picocli.CommandLine.Parameters;
 class WhatsNewInJava implements Callable<Integer> {
 
     @Option(names = {"--release", "-r"}, paramLabel = "release", description = "JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)")
-    String[] releases = new String[]{"9", "10", "11"};
+    JavaRelease[] releases = new JavaRelease[] {JavaRelease.JAVA_9, JavaRelease.JAVA_10, JavaRelease.JAVA_11};
 
     @Parameters(index = "0", description = "JDK sources path")
     String sourcesPath;
@@ -250,8 +250,11 @@ class WhatsNewInJava implements Callable<Integer> {
             }
         }
 
-        private boolean isNewInReleases(final String[] releases) {
-            return Arrays.asList(releases).contains(release);
+        private boolean isNewInReleases(final JavaRelease[] releases) {
+            return Arrays
+                    .stream(releases)
+                    .map(JavaRelease::toString)
+                    .anyMatch(javaRelease -> javaRelease.equals(release));
         }
 
         @Override
@@ -269,6 +272,39 @@ class WhatsNewInJava implements Callable<Integer> {
 
         public String toStringIndented() {
             return declaration ? (this + "\n{") : ("\t" + this);
+        }
+    }
+
+    private enum JavaRelease {
+        JAVA_8,
+        JAVA_9,
+        JAVA_10,
+        JAVA_11,
+        JAVA_12,
+        JAVA_13,
+        JAVA_14,
+        JAVA_15,
+        JAVA_16,
+        JAVA_17;
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case JAVA_8:
+                    return "1.8";
+                case JAVA_9:
+                case JAVA_10:
+                case JAVA_11:
+                case JAVA_12:
+                case JAVA_13:
+                case JAVA_14:
+                case JAVA_15:
+                case JAVA_16:
+                case JAVA_17:
+                    return this.name().split("_")[1];
+                default:
+                    throw new IllegalArgumentException("Unknown Java release: " + this);
+            }
         }
     }
 }
