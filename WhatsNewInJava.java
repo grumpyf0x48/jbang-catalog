@@ -24,7 +24,7 @@ import picocli.CommandLine.Parameters;
 @Command(name = "WhatsNewInJava", mixinStandardHelpOptions = true, version = "WhatsNewInJava 0.1", description = "Display methods added to a Java class in a given JDK release")
 class WhatsNewInJava implements Callable<Integer> {
 
-    @Option(names = {"--release", "-r"}, paramLabel = "release", description = "JDK release (1.8, 9, 10, 11 ...) (default: 9, 10, 11)")
+    @Option(names = {"--release", "-r"}, paramLabel = "release", description = "JDK release (1.8, 9, 10, 11 ... or ALL) (default: 9, 10, 11)")
     JavaRelease[] releases = new JavaRelease[] {JavaRelease.JAVA_9, JavaRelease.JAVA_10, JavaRelease.JAVA_11};
 
     @Parameters(index = "0", description = "JDK sources path")
@@ -254,7 +254,7 @@ class WhatsNewInJava implements Callable<Integer> {
             return Arrays
                     .stream(releases)
                     .map(JavaRelease::toString)
-                    .anyMatch(javaRelease -> javaRelease.equals(release));
+                    .anyMatch(javaRelease -> javaRelease.equals(JavaRelease.JAVA_ALL.toString()) || javaRelease.equals(release));
         }
 
         @Override
@@ -285,7 +285,8 @@ class WhatsNewInJava implements Callable<Integer> {
         JAVA_14,
         JAVA_15,
         JAVA_16,
-        JAVA_17;
+        JAVA_17,
+        JAVA_ALL;
 
         @Override
         public String toString() {
@@ -302,6 +303,8 @@ class WhatsNewInJava implements Callable<Integer> {
                 case JAVA_16:
                 case JAVA_17:
                     return this.name().split("_")[1];
+                case JAVA_ALL:
+                    return "ALL";
                 default:
                     throw new IllegalArgumentException("Unknown Java release: " + this);
             }
