@@ -151,24 +151,24 @@ class WhatsNewInJava implements Callable<Integer> {
 
         @Override
         public boolean tryAdvance(final Consumer<? super JavaMethod> action) {
+            /* Searching for @since ... */
             if (innerAdvanceWhile(Predicate.not(/* since 11 */currentLine -> currentLine.contains("@since")))) {
                 return false;
             }
-            final String since = line;
+            final var since = line;
 
+            /* Searching for class declaration, method declaration, or inner (class, interface, annotation) declaration */
             if (innerAdvanceWhile(currentLine -> currentLine.contains("*") || currentLine.contains("@"))) {
                 return false;
             }
             if (line.isEmpty() && innerAdvanceWhile(String::isEmpty)) {
                 return false;
             }
-
-            String signature = line;
-            if (!showAbstractClasses && signature.contains("abstract")) {
+            if (!showAbstractClasses && line.contains("abstract")) {
                 return false;
             }
-
-            // class or method declaration uses several lines
+            var signature = line;
+            // signature uses several lines
             while (!isDeclarationComplete(signature)) {
                 if (!lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) {
                     return false;
@@ -266,7 +266,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
         @Override
         public String toString() {
-            final StringBuilder stringBuilder = new StringBuilder();
+            final var stringBuilder = new StringBuilder();
             stringBuilder.append(signature);
             if (!declaration) {
                 stringBuilder.append(";");
