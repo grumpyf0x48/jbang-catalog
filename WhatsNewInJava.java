@@ -134,10 +134,15 @@ class WhatsNewInJava implements Callable<Integer> {
                 .replaceAll(".java$", "");
     }
 
+    private static boolean isClassDeclaration(final String signature) {
+        return signature.contains("class") || signature.contains("interface") || signature.contains("enum");
+    }
+
     private class JavaMethodIterator implements Spliterator<JavaMethod> {
 
         private final Spliterator<String> lineSpliterator;
         private String line;
+
         private boolean declaration = true;
 
         public JavaMethodIterator(final Spliterator<String> lineSpliterator) {
@@ -164,7 +169,7 @@ class WhatsNewInJava implements Callable<Integer> {
             }
 
             // class or method declaration uses several lines
-            while (!isComplete(signature)) {
+            while (!isDeclarationComplete(signature)) {
                 if (!lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) {
                     return false;
                 }
@@ -185,11 +190,8 @@ class WhatsNewInJava implements Callable<Integer> {
             return !advanced;
         }
 
-        private boolean isComplete(final String signature) {
-            if (declaration) {
-                return signature.contains("class") || signature.contains("interface") || signature.contains("enum");
-            }
-            return signature.contains("{");
+        private boolean isDeclarationComplete(final String signature) {
+            return declaration ? isClassDeclaration(signature) : signature.contains("{");
         }
 
         @Override
@@ -210,16 +212,17 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private static class JavaMethod {
 
-        private final String signature;
         private final boolean declaration;
+        private final String signature;
         private String release = "";
 
         private JavaMethod(final String signature, final String since, final boolean declaration) {
+            final boolean innerDeclaration = !declaration && isClassDeclaration(signature);
+            this.declaration = declaration;
             this.signature = signature
                     .strip() // since 11
-                    .replace("{", "")
+                    .replace("{", innerDeclaration ? "{ ... }" : "")
                     .stripTrailing(); // since 11
-            this.declaration = declaration;
             final String[] strings = since
                     .strip()
                     .replace("*", "")
@@ -230,9 +233,14 @@ class WhatsNewInJava implements Callable<Integer> {
             }
         }
 
+        private JavaRelease getRelease() {
+            return JavaRelease.from(release);
+        }
+
         public static String toString(final Collection<JavaMethod> methods) {
             return methods
                     .stream()
+                    .sorted(Comparator.comparing(JavaMethod::getRelease))
                     .map(JavaMethod::toStringIndented)
                     .collect(Collectors.joining("\n"))
                     + "\n}";
@@ -253,8 +261,7 @@ class WhatsNewInJava implements Callable<Integer> {
         private boolean isNewInReleases(final JavaRelease[] releases) {
             return Arrays
                     .stream(releases)
-                    .map(JavaRelease::toString)
-                    .anyMatch(javaRelease -> javaRelease.equals(JavaRelease.JAVA_ALL.toString()) || javaRelease.equals(release));
+                    .anyMatch(javaRelease -> javaRelease.matches(release));
         }
 
         @Override
@@ -287,6 +294,17 @@ class WhatsNewInJava implements Callable<Integer> {
         JAVA_16,
         JAVA_17,
         JAVA_ALL;
+
+        public static JavaRelease from(final String release) {
+            if (JAVA_8.toString().equals(release)) {
+                return JAVA_8;
+            }
+            return JavaRelease.valueOf("JAVA_" + release);
+        }
+
+        public boolean matches(final String release) {
+            return this == JAVA_ALL || release.equals(this.toString());
+        }
 
         @Override
         public String toString() {
