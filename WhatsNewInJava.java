@@ -121,14 +121,15 @@ class WhatsNewInJava implements Callable<Integer> {
         try (final Stream<String> stringStream = Arrays.stream(classNames)) {
             return stringStream
                     .anyMatch(requestedClassName -> {
-                        final String className = toClassName(path.toString());
+                        final String className = toClassName(path);
                         return className.endsWith(requestedClassName) || className.matches(requestedClassName);
                     });
         }
     }
 
-    private String toClassName(final String filepath) {
-        return filepath
+    private String toClassName(final Path path) {
+        return path
+                .toString()
                 .replace(searchPath + File.separator, "")
                 .replace("/", ".")
                 .replaceAll(".java$", "");
