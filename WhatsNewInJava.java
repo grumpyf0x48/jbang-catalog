@@ -119,12 +119,12 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private boolean matchesSearch(final Path path) {
         try (final Stream<String> stringStream = Arrays.stream(classNames)) {
-            return stringStream
-                    .anyMatch(requestedClassName -> {
-                        final String className = toClassName(path);
-                        return className.endsWith(requestedClassName) || className.matches(requestedClassName);
-                    });
+            return stringStream.anyMatch(ClassNameSearch -> classMatchesSearch(toClassName(path), ClassNameSearch));
         }
+    }
+
+    private boolean classMatchesSearch(final String className, final String ClassNameSearch) {
+        return className.endsWith(ClassNameSearch) || className.matches(ClassNameSearch);
     }
 
     private String toClassName(final Path path) {
