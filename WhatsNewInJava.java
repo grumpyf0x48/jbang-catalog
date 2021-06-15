@@ -142,7 +142,6 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private final Spliterator<String> lineSpliterator;
         private String line;
-
         private boolean declaration = true;
 
         public JavaMethodIterator(final Spliterator<String> lineSpliterator) {
@@ -283,6 +282,14 @@ class WhatsNewInJava implements Callable<Integer> {
     }
 
     private enum JavaRelease {
+        JAVA_0,
+        JAVA_1,
+        JAVA_2,
+        JAVA_3,
+        JAVA_4,
+        JAVA_5,
+        JAVA_6,
+        JAVA_7,
         JAVA_8,
         JAVA_9,
         JAVA_10,
@@ -296,10 +303,8 @@ class WhatsNewInJava implements Callable<Integer> {
         JAVA_ALL;
 
         public static JavaRelease from(final String release) {
-            if (JAVA_8.toString().equals(release)) {
-                return JAVA_8;
-            }
-            return JavaRelease.valueOf("JAVA_" + release);
+            var effectiveRelease = release.contains(".") ? release.split("\\.")[1] : release;
+            return JavaRelease.valueOf("JAVA_" + effectiveRelease);
         }
 
         public boolean matches(final String release) {
@@ -309,8 +314,17 @@ class WhatsNewInJava implements Callable<Integer> {
         @Override
         public String toString() {
             switch (this) {
+                case JAVA_0:
+                    return "1.0";
+                case JAVA_1:
+                case JAVA_2:
+                case JAVA_3:
+                case JAVA_4:
+                case JAVA_5:
+                case JAVA_6:
+                case JAVA_7:
                 case JAVA_8:
-                    return "1.8";
+                    return "1." + this.name().split("_")[1];
                 case JAVA_9:
                 case JAVA_10:
                 case JAVA_11:
