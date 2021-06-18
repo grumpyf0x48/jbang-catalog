@@ -167,16 +167,17 @@ class WhatsNewInJava implements Callable<Integer> {
             if (!showAbstractClasses && line.contains("abstract")) {
                 return false;
             }
-            var signature = line;
-            // signature uses several lines
-            while (!isDeclarationComplete(signature)) {
-                if (!lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) {
+            final var signatureBuilder = new StringBuilder(line);
+            while (isDeclarationIncomplete(line)) {
+                if (!lineSpliterator.tryAdvance(currentLine -> line = currentLine)) {
                     return false;
                 }
-                signature += " " + line.stripLeading();
+                signatureBuilder
+                    .append(" ")
+                    .append(line.stripLeading());
             }
 
-            action.accept(new JavaMethod(signature, since, declaration));
+            action.accept(new JavaMethod(signatureBuilder.toString(), since, declaration));
             if (declaration) {
                 declaration = false;
             }
@@ -185,13 +186,13 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private boolean innerAdvanceWhile(final Predicate<String> predicate) {
             boolean advanced;
-            while ((advanced = lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) && predicate.test(line))
+            while ((advanced = lineSpliterator.tryAdvance(currentLine -> line = currentLine)) && predicate.test(line))
                 ;
             return !advanced;
         }
 
-        private boolean isDeclarationComplete(final String signature) {
-            return declaration ? isClassDeclaration(signature) : signature.contains("{");
+        private boolean isDeclarationIncomplete(final String signature) {
+            return declaration ? !isClassDeclaration(signature) : !signature.contains("{");
         }
 
         @Override
