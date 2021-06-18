@@ -119,12 +119,12 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private boolean matchesSearch(final Path path) {
         try (final Stream<String> stringStream = Arrays.stream(classNames)) {
-            return stringStream.anyMatch(ClassNameSearch -> classMatchesSearch(toClassName(path), ClassNameSearch));
+            return stringStream.anyMatch(classNameSearch -> classMatchesSearch(toClassName(path), classNameSearch));
         }
     }
 
-    private boolean classMatchesSearch(final String className, final String ClassNameSearch) {
-        return className.endsWith(ClassNameSearch) || className.matches(ClassNameSearch);
+    private boolean classMatchesSearch(final String className, final String classNameSearch) {
+        return className.endsWith(classNameSearch) || className.matches(classNameSearch);
     }
 
     private String toClassName(final Path path) {
@@ -214,7 +214,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private final boolean declaration;
         private final String signature;
-        private String release = "";
+        private final String release;
 
         private JavaMethod(final String signature, final String since, final boolean declaration) {
             final boolean innerDeclaration = !declaration && isClassDeclaration(signature);
@@ -227,9 +227,12 @@ class WhatsNewInJava implements Callable<Integer> {
                     .strip()
                     .replace("*", "")
                     .stripLeading() // since 11
-                    .split(" ");
+                    .split("\\s+");
             if (strings.length > 1) {
                 release = strings[1];
+            }
+            else {
+                release = JavaRelease.JAVA_ALL.toString();
             }
         }
 
@@ -238,10 +241,24 @@ class WhatsNewInJava implements Callable<Integer> {
         }
 
         public static String toString(final Collection<JavaMethod> methods) {
+            final var previousMethod = new JavaMethod[]{ null };
             return methods
                     .stream()
                     .sorted(Comparator.comparing(JavaMethod::getRelease))
-                    .map(JavaMethod::toStringIndented)
+                    .map(javaMethod -> {
+                        try {
+                            final var builder = new StringBuilder();
+                            if (previousMethod[0] != null && !previousMethod[0].declaration && previousMethod[0].getRelease() != javaMethod.getRelease())
+                            {
+                                builder.append("\n");
+                            }
+                            builder.append(javaMethod.toStringIndented());
+                            return builder.toString();
+                        }
+                        finally {
+                            previousMethod[0] = javaMethod;
+                        }
+                    })
                     .collect(Collectors.joining("\n"))
                     + "\n}";
         }
