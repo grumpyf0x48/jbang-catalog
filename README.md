@@ -342,7 +342,10 @@ public final class Optional<T> // since 1.8
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
     public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier); // since 9
     public Stream<T> stream(); // since 9
+
     public T orElseThrow(); // since 10
+
+    public boolean isEmpty(); // since 11
 }
 
 public interface Stream<T> extends BaseStream<T, Stream<T>> // since 1.8
@@ -355,10 +358,11 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> // since 1.8
 
 public final class Collectors // since 1.8
 {
-    public static <T> Collector<T, ?, List<T>> toUnmodifiableList(); // since 10
-    public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet(); // since 10
     public static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper, Collector<? super U, A, R> downstream); // since 9
     public static <T, A, R> Collector<T, ?, R> filtering(Predicate<? super T> predicate, Collector<? super T, A, R> downstream); // since 9
+
+    public static <T> Collector<T, ?, List<T>> toUnmodifiableList(); // since 10
+    public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet(); // since 10
     public static <T, K, U> Collector<T, ?, Map<K,U>> toUnmodifiableMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper); // since 10
     public static <T, K, U> Collector<T, ?, Map<K,U>> toUnmodifiableMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction); // since 10
 }
