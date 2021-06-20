@@ -453,6 +453,6 @@ For example `WhatsNewInJava`:
 
 ```console
 jbang build WhatsNewInJava.java
-java -classpath $(jbang info classpath WhatsNewInJava.java) picocli.AutoComplete -f -n WhatsNewInJava.java WhatsNewInJava
-sudo cp WhatsNewInJava.java_completion /etc/bash_completion.d
+java -classpath $(jbang info classpath WhatsNewInJava.java) picocli.AutoComplete -f -n whats-new-in-java WhatsNewInJava
+sudo cp whats-new-in-java_completion /etc/bash_completion.d
 ```
