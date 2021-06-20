@@ -119,16 +119,17 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private boolean matchesSearch(final Path path) {
         try (final Stream<String> stringStream = Arrays.stream(classNames)) {
-            return stringStream
-                    .anyMatch(requestedClassName -> {
-                        final String className = toClassName(path.toString());
-                        return className.endsWith(requestedClassName) || className.matches(requestedClassName);
-                    });
+            return stringStream.anyMatch(classNameSearch -> classMatchesSearch(toClassName(path), classNameSearch));
         }
     }
 
-    private String toClassName(final String filepath) {
-        return filepath
+    private boolean classMatchesSearch(final String className, final String classNameSearch) {
+        return className.endsWith(classNameSearch) || className.matches(classNameSearch);
+    }
+
+    private String toClassName(final Path path) {
+        return path
+                .toString()
                 .replace(searchPath + File.separator, "")
                 .replace("/", ".")
                 .replaceAll(".java$", "");
@@ -142,7 +143,6 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private final Spliterator<String> lineSpliterator;
         private String line;
-
         private boolean declaration = true;
 
         public JavaMethodIterator(final Spliterator<String> lineSpliterator) {
@@ -167,16 +167,17 @@ class WhatsNewInJava implements Callable<Integer> {
             if (!showAbstractClasses && line.contains("abstract")) {
                 return false;
             }
-            var signature = line;
-            // signature uses several lines
-            while (!isDeclarationComplete(signature)) {
-                if (!lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) {
+            final var signatureBuilder = new StringBuilder(line);
+            while (isDeclarationIncomplete(line)) {
+                if (!lineSpliterator.tryAdvance(currentLine -> line = currentLine)) {
                     return false;
                 }
-                signature += " " + line.stripLeading();
+                signatureBuilder
+                    .append(" ")
+                    .append(line.stripLeading());
             }
 
-            action.accept(new JavaMethod(signature, since, declaration));
+            action.accept(new JavaMethod(signatureBuilder.toString(), since, declaration));
             if (declaration) {
                 declaration = false;
             }
@@ -185,13 +186,13 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private boolean innerAdvanceWhile(final Predicate<String> predicate) {
             boolean advanced;
-            while ((advanced = lineSpliterator.tryAdvance(currentLine -> this.line = currentLine)) && predicate.test(line))
+            while ((advanced = lineSpliterator.tryAdvance(currentLine -> line = currentLine)) && predicate.test(line))
                 ;
             return !advanced;
         }
 
-        private boolean isDeclarationComplete(final String signature) {
-            return declaration ? isClassDeclaration(signature) : signature.contains("{");
+        private boolean isDeclarationIncomplete(final String signature) {
+            return declaration ? !isClassDeclaration(signature) : !signature.contains("{");
         }
 
         @Override
@@ -214,7 +215,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private final boolean declaration;
         private final String signature;
-        private String release = "";
+        private final String release;
 
         private JavaMethod(final String signature, final String since, final boolean declaration) {
             final boolean innerDeclaration = !declaration && isClassDeclaration(signature);
@@ -227,9 +228,12 @@ class WhatsNewInJava implements Callable<Integer> {
                     .strip()
                     .replace("*", "")
                     .stripLeading() // since 11
-                    .split(" ");
+                    .split("\\s+");
             if (strings.length > 1) {
                 release = strings[1];
+            }
+            else {
+                release = JavaRelease.JAVA_ALL.toString();
             }
         }
 
@@ -238,10 +242,24 @@ class WhatsNewInJava implements Callable<Integer> {
         }
 
         public static String toString(final Collection<JavaMethod> methods) {
+            final var previousMethod = new JavaMethod[]{ null };
             return methods
                     .stream()
                     .sorted(Comparator.comparing(JavaMethod::getRelease))
-                    .map(JavaMethod::toStringIndented)
+                    .map(javaMethod -> {
+                        try {
+                            final var builder = new StringBuilder();
+                            if (previousMethod[0] != null && !previousMethod[0].declaration && previousMethod[0].getRelease() != javaMethod.getRelease())
+                            {
+                                builder.append("\n");
+                            }
+                            builder.append(javaMethod.toStringIndented());
+                            return builder.toString();
+                        }
+                        finally {
+                            previousMethod[0] = javaMethod;
+                        }
+                    })
                     .collect(Collectors.joining("\n"))
                     + "\n}";
         }
@@ -283,6 +301,14 @@ class WhatsNewInJava implements Callable<Integer> {
     }
 
     private enum JavaRelease {
+        JAVA_0,
+        JAVA_1,
+        JAVA_2,
+        JAVA_3,
+        JAVA_4,
+        JAVA_5,
+        JAVA_6,
+        JAVA_7,
         JAVA_8,
         JAVA_9,
         JAVA_10,
@@ -296,10 +322,8 @@ class WhatsNewInJava implements Callable<Integer> {
         JAVA_ALL;
 
         public static JavaRelease from(final String release) {
-            if (JAVA_8.toString().equals(release)) {
-                return JAVA_8;
-            }
-            return JavaRelease.valueOf("JAVA_" + release);
+            var effectiveRelease = release.contains(".") ? release.split("\\.")[1] : release;
+            return JavaRelease.valueOf("JAVA_" + effectiveRelease);
         }
 
         public boolean matches(final String release) {
@@ -309,8 +333,17 @@ class WhatsNewInJava implements Callable<Integer> {
         @Override
         public String toString() {
             switch (this) {
+                case JAVA_0:
+                    return "1.0";
+                case JAVA_1:
+                case JAVA_2:
+                case JAVA_3:
+                case JAVA_4:
+                case JAVA_5:
+                case JAVA_6:
+                case JAVA_7:
                 case JAVA_8:
-                    return "1.8";
+                    return "1." + this.name().split("_")[1];
                 case JAVA_9:
                 case JAVA_10:
                 case JAVA_11:
