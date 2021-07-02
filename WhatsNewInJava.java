@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 11+
-//DEPS info.picocli:picocli:4.5.0
+//DEPS info.picocli:picocli:4.6.1
 
 import java.io.File;
 import java.io.IOException;

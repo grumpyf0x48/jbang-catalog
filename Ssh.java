@@ -5,7 +5,7 @@
 //DEPS org.apache.logging.log4j:log4j-api:2.7
 //DEPS org.apache.logging.log4j:log4j-core:2.7
 //DEPS org.apache.logging.log4j:log4j-slf4j-impl:2.7
-//DEPS info.picocli:picocli:4.5.0
+//DEPS info.picocli:picocli:4.6.1
 
 import org.apache.commons.lang3.StringUtils;
 

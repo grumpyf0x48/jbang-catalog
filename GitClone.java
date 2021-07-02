@@ -2,7 +2,7 @@
 
 //DEPS org.eclipse.jgit:org.eclipse.jgit:5.10.0.202012080955-r
 //DEPS org.eclipse.jgit:org.eclipse.jgit.ssh.jsch:5.10.0.202012080955-r
-//DEPS info.picocli:picocli:4.5.0
+//DEPS info.picocli:picocli:4.6.1
 //SOURCES AbstractGit.java
 
 import picocli.CommandLine;
