@@ -155,7 +155,7 @@ class WhatsNewInJava implements Callable<Integer> {
             if (innerAdvanceWhile(Predicate.not(/* since 11 */currentLine -> currentLine.contains("@since")))) {
                 return false;
             }
-            final var since = line;
+            final var sinceLine = line;
 
             /* Searching for class declaration, method declaration, or inner (class, interface, annotation) declaration */
             if (innerAdvanceWhile(currentLine -> currentLine.contains("*") || currentLine.contains("@"))) {
@@ -177,7 +177,7 @@ class WhatsNewInJava implements Callable<Integer> {
                     .append(line.stripLeading());
             }
 
-            action.accept(new JavaMethod(signatureBuilder.toString(), since, declaration));
+            action.accept(new JavaMethod(signatureBuilder.toString(), declaration, sinceLine));
             if (declaration) {
                 declaration = false;
             }
@@ -213,18 +213,17 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private static class JavaMethod {
 
-        private final boolean declaration;
         private final String signature;
+        private final boolean declaration;
         private final String release;
 
-        private JavaMethod(final String signature, final String since, final boolean declaration) {
-            final boolean innerDeclaration = !declaration && isClassDeclaration(signature);
-            this.declaration = declaration;
+        private JavaMethod(final String signature, final boolean declaration, final String sinceLine) {
             this.signature = signature
                     .strip() // since 11
-                    .replace("{", innerDeclaration ? "{ ... }" : "")
+                    .replace("{", isInnerDeclaration(signature, declaration) ? "{ ... }" : "")
                     .stripTrailing(); // since 11
-            final String[] strings = since
+            this.declaration = declaration;
+            final String[] strings = sinceLine
                     .strip()
                     .replace("*", "")
                     .stripLeading() // since 11
@@ -241,7 +240,17 @@ class WhatsNewInJava implements Callable<Integer> {
             return JavaRelease.from(release);
         }
 
-        public static String toString(final Collection<JavaMethod> methods) {
+        private boolean isNewInReleases(final JavaRelease[] releases) {
+            return Arrays
+                    .stream(releases)
+                    .anyMatch(javaRelease -> javaRelease.matches(release));
+        }
+
+        private static boolean isInnerDeclaration(final String signature, final boolean declaration) {
+            return !declaration && isClassDeclaration(signature);
+        }
+
+        private static String toString(final Collection<JavaMethod> methods) {
             final var previousMethod = new JavaMethod[]{ null };
             return methods
                     .stream()
@@ -264,7 +273,7 @@ class WhatsNewInJava implements Callable<Integer> {
                     + "\n}";
         }
 
-        public static Optional<String> toString(final Collection<JavaMethod> methods, final boolean showOnlyClassNames) {
+        private static Optional<String> toString(final Collection<JavaMethod> methods, final boolean showOnlyClassNames) {
             if (methods.isEmpty()) {
                 return Optional.empty();
             }
@@ -274,12 +283,6 @@ class WhatsNewInJava implements Callable<Integer> {
             } else {
                 return Optional.of(JavaMethod.toString(methods));
             }
-        }
-
-        private boolean isNewInReleases(final JavaRelease[] releases) {
-            return Arrays
-                    .stream(releases)
-                    .anyMatch(javaRelease -> javaRelease.matches(release));
         }
 
         @Override
