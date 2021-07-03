@@ -2,7 +2,7 @@
 
 //DEPS info.picocli:picocli:4.5.0
 //DEPS junit:junit-dep:4.11
-//TODO Add //SOURCE <script under test>
+//TODO Add //SOURCES <script under test>.java
 
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
@@ -12,7 +12,7 @@ import static java.lang.System.out;
 
 public class {baseName} {
 
-    public static void main(final String... args) throws ClassNotFoundException {
+    public static void main(final String... args) {
         new JUnitCore().run(Request.aClass({baseName}.class));
     }
 
