@@ -1,0 +1,25 @@
+///usr/bin/env jbang "$0" "$@" ; exit $?
+
+//DEPS info.picocli:picocli:4.5.0
+//DEPS junit:junit-dep:4.11
+//SOURCES <script under test>.java
+
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Request;
+
+import static java.lang.System.out;
+
+public class {basename} {
+
+    private static final {basename} INSTANCE = new {basename}();
+
+    public static void main(final String... args) throws ClassNotFoundException {
+        new JUnitCore().run(Request.aClass({basename}.class));
+    }
+
+    @Test
+    public void test() {
+        out.println("Running test with: " + INSTANCE);
+    }
+}
