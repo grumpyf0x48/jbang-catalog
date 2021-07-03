@@ -10,12 +10,12 @@ import org.junit.runner.Request;
 
 import static java.lang.System.out;
 
-public class {basename} {
+public class {baseName} {
 
-    private static final {basename} INSTANCE = new {basename}();
+    private static final {baseName} INSTANCE = new {baseName}();
 
     public static void main(final String... args) throws ClassNotFoundException {
-        new JUnitCore().run(Request.aClass({basename}.class));
+        new JUnitCore().run(Request.aClass({baseName}.class));
     }
 
     @Test
