@@ -1,6 +1,5 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS info.picocli:picocli:4.5.0
 //DEPS junit:junit-dep:4.11
 //TODO Add //SOURCES <script under test>.java
 

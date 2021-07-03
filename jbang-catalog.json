@@ -38,7 +38,7 @@
       "file-refs": {
         "{basename}.java": "templates/junit4.java.qute"
       },
-      "description": "Simple template for JUnit4 test"
+      "description": "Simple template for JUnit4 tests"
     }
   }
 }
