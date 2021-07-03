@@ -19,6 +19,9 @@ My collection of [JBang](https://www.jbang.dev) scripts.
     + [Lists the changes made to `java.lang.Process` in Java 9](#lists-the-changes-made-to-javalangprocess-in-java-9)
     + [Lists the classes having changed in Java 9 in the `java.time` package](#lists-the-classes-having-changed-in-java-9-in-the-javatime-package)
     + [List the changes made in Java 11 for strings](#list-the-changes-made-in-java-11-for-strings)
+    + [List the `java.lang.Integer`, `java.lang.Long` ... methods made deprecated in Java 9](#list-the-javalanginteger-javalanglong--methods-made-deprecated-in-java-9)
+    + [List the deprecated methods in package `java.util.concurrent.atomic`](#list-the-deprecated-methods-in-package-javautilconcurrentatomic)
+    + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
 - [Install completion for a JBang script](#install-completion-for-a-jbang-script)
 
 ## Install JBang
@@ -266,7 +269,7 @@ The previously cloned repository in `System.getProperty("java.io.tmpdir")` will 
 
 ## WhatsNewInJava
 
-A program to list new methods added in the JDK for a given list of classes.
+A program to list new methods added, or deprecated ones, in the JDK for a given list of classes.
 
 By default `WhatsNewInJava` lists new methods added in the 9, 10 and 11 JDK releases.
 
@@ -277,13 +280,13 @@ sudo apt-get install openjdk-11-source
 cd /usr/lib/jvm/openjdk-11
 sudo unzip src.zip
 ```
-It uses Java `Stream` functionality, illustrates `Spliterator` usage and makes use of some of Java 11 features.
+It uses Java `Stream` functionality, illustrates `Spliterator` usage and makes use of some Java 1.8, 10 and 11 new features.
 
 Written with Java 11, JBang and Picocli.
 
 ```console
 $ jbang whats-new-in-java@grumpyf0x48 --help
-Usage: WhatsNewInJava [-abchvV] [-m=<module>] [-s=<sourcesPath>]
+Usage: WhatsNewInJava [-abcdhvV] [-m=<module>] [-s=<sourcesPath>]
                       [-r=release]... <classNames>...
 Display methods added to a Java class in a given JDK release
       <classNames>...      Class names or regexps
@@ -294,6 +297,8 @@ Display methods added to a Java class in a given JDK release
                            Show abstract classes (default: false)
   -c, --only-class-names   Show only names of modified classes, not their
                              methods (default: false)
+  -d, --deprecation        Show deprecated methods instead of added or updated
+                             ones
   -h, --help               Show this help message and exit.
   -m, --module=<module>    Module (java.base, java.desktop, java.logging ...)
                              where to search classes (default: java.base)
@@ -444,6 +449,69 @@ public final class StringBuilder
 public final class StringBuffer
 {
     public synchronized int compareTo(StringBuffer another); // since 11
+}
+```
+
+#### List the java.lang.Integer java.lang.Long ... methods made deprecated in Java 9
+
+```console
+$ jbang whats-new-in-java@grumpyf0x48 -d -r 9 java.lang.Integer java.lang.Long java.lang.Double
+public final class Long extends Number implements Comparable<Long> // since 1.0
+{
+    public Long(long value); // @Deprecated(since="9")
+    public Long(String s) throws NumberFormatException; // @Deprecated(since="9")
+}
+
+public final class Double extends Number implements Comparable<Double> // since 1.0
+{
+    public Double(double value); // @Deprecated(since="9")
+    public Double(String s) throws NumberFormatException; // @Deprecated(since="9")
+}
+
+public final class Integer extends Number implements Comparable<Integer> // since 1.0
+{
+    public Integer(int value); // @Deprecated(since="9")
+    public Integer(String s) throws NumberFormatException; // @Deprecated(since="9")
+}
+```
+
+#### List the deprecated methods in package java.util.concurrent.atomic
+
+```console
+$ jbang whats-new-in-java@grumpyf0x48 -d -r ALL java.util.concurrent.atomic.*
+public class AtomicLong extends Number implements java.io.Serializable // since 1.5
+{
+    public final boolean weakCompareAndSet(long expectedValue, long newValue); // @Deprecated(since="9")
+}
+
+public class AtomicInteger extends Number implements java.io.Serializable // since 1.5
+{
+    public final boolean weakCompareAndSet(int expectedValue, int newValue); // @Deprecated(since="9")
+}
+
+...
+
+public class AtomicIntegerArray implements java.io.Serializable // since 1.5
+{
+    public final boolean weakCompareAndSet(int i, int expectedValue, int newValue); // @Deprecated(since="9")
+}
+
+public class AtomicLongArray implements java.io.Serializable // since 1.5
+{
+    public final boolean weakCompareAndSet(int i, long expectedValue, long newValue); // @Deprecated(since="9")
+}
+```
+
+#### List the deprecated methods of java.lang.Thread
+
+```console
+$ jbang whats-new-in-java@grumpyf0x48 -d -r ALL java.lang.Thread
+public class Thread implements Runnable // since 1.0
+{
+    public final void stop(); // @Deprecated(since="1.2")
+    public final void suspend(); // @Deprecated(since="1.2")
+    public final void resume(); // @Deprecated(since="1.2")
+    public native int countStackFrames();  /** * Waits at most @code millis} milliseconds for this thread to; // @Deprecated(since="1.2", forRemoval=true)
 }
 ```
 

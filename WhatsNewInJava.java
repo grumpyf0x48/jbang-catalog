@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -33,20 +34,23 @@ class WhatsNewInJava implements Callable<Integer> {
     @Option(names = {"--module", "-m"}, defaultValue = "java.base", description = "Module (java.base, java.desktop, java.logging ...) where to search classes (default: ${DEFAULT-VALUE})")
     String module;
 
-    @Parameters(arity = "1..n", index = "0..n", description = "Class names or regexps")
-    String[] classNames;
-
     @Option(names = {"--not-modified-classes", "-a"}, defaultValue = "false", description = "Show all classes even not modified ones (default: ${DEFAULT-VALUE})")
     boolean showNotModifiedClasses;
-
-    @Option(names = {"--only-class-names", "-c"}, defaultValue = "false", description = "Show only names of modified classes, not their methods (default: ${DEFAULT-VALUE})")
-    boolean showOnlyClassNames;
 
     @Option(names = {"--show-abstract-classes", "-b"}, defaultValue = "false", description = "Show abstract classes (default: ${DEFAULT-VALUE})")
     boolean showAbstractClasses;
 
+    @Option(names = {"--only-class-names", "-c"}, defaultValue = "false", description = "Show only names of modified classes, not their methods (default: ${DEFAULT-VALUE})")
+    boolean showOnlyClassNames;
+
+    @Option(names = {"--deprecation", "-d"}, defaultValue = "false", description = "Show deprecated methods instead of added or updated ones")
+    boolean showDeprecatedMethods;
+
     @Option(names = {"--verbose", "-v"}, defaultValue = "false", description = "Activate verbose mode (default: ${DEFAULT-VALUE})")
     boolean verbose;
+
+    @Parameters(arity = "1..n", index = "0..n", description = "Class names or regexps")
+    String[] classNames;
 
     String searchPath;
 
@@ -99,7 +103,8 @@ class WhatsNewInJava implements Callable<Integer> {
 
     private Collection<JavaMethod> getMethods(final Path path) {
         try {
-            try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaMethodIterator(Files.lines(/* since 1.8 */path).spliterator()), false)) {
+            final SearchType searchType = showDeprecatedMethods ? SearchType.DEPRECATED : SearchType.SINCE;
+            try (final Stream<JavaMethod> methodStream = StreamSupport.stream(new JavaMethodIterator(Files.lines(/* since 1.8 */path).spliterator(), searchType), false)) {
                 return methodStream
                         .filter(method -> method.declaration || method.isNewInReleases(releases))
                         .collect(Collectors.toList());
@@ -139,23 +144,44 @@ class WhatsNewInJava implements Callable<Integer> {
         return signature.contains("class") || signature.contains("interface") || signature.contains("enum");
     }
 
+    private enum SearchType {
+        SINCE,      // @Since 11
+        DEPRECATED; // @Deprecated(since="9")
+
+        public String getSearchedToken() {
+            switch (this) {
+                case SINCE:
+                    return "@since";
+                case DEPRECATED:
+                    return "@Deprecated";
+                default:
+                    throw new IllegalArgumentException("Unexpected SearchType: " + this);
+            }
+        }
+    }
+
     private class JavaMethodIterator implements Spliterator<JavaMethod> {
 
         private final Spliterator<String> lineSpliterator;
+        private final SearchType searchType;
         private String line;
         private boolean declaration = true;
 
-        public JavaMethodIterator(final Spliterator<String> lineSpliterator) {
+        public JavaMethodIterator(final Spliterator<String> lineSpliterator, final SearchType searchType) {
             this.lineSpliterator = lineSpliterator;
+            this.searchType = searchType;
         }
 
         @Override
         public boolean tryAdvance(final Consumer<? super JavaMethod> action) {
-            /* Searching for @since ... */
-            if (innerAdvanceWhile(Predicate.not(/* since 11 */currentLine -> currentLine.contains("@since")))) {
+            /* Searching for @since or @Deprecated...
+               When searching the class declaration, @since is always searched even if -d flag is used.
+             */
+            final SearchType effectiveSearchType = declaration ? SearchType.SINCE : searchType;
+            if (innerAdvanceWhile(Predicate.not(/* since 11 */currentLine -> currentLine.contains(effectiveSearchType.getSearchedToken())))) {
                 return false;
             }
-            final var sinceLine = line;
+            final var searchedLine = line;
 
             /* Searching for class declaration, method declaration, or inner (class, interface, annotation) declaration */
             if (innerAdvanceWhile(currentLine -> currentLine.contains("*") || currentLine.contains("@"))) {
@@ -177,7 +203,7 @@ class WhatsNewInJava implements Callable<Integer> {
                     .append(line.stripLeading());
             }
 
-            action.accept(new JavaMethod(signatureBuilder.toString(), declaration, sinceLine));
+            action.accept(new JavaMethod(signatureBuilder.toString(), declaration, effectiveSearchType, searchedLine));
             if (declaration) {
                 declaration = false;
             }
@@ -215,25 +241,19 @@ class WhatsNewInJava implements Callable<Integer> {
 
         private final String signature;
         private final boolean declaration;
+        private final SearchType searchType;
+        private final String searchedLine;
         private final String release;
 
-        private JavaMethod(final String signature, final boolean declaration, final String sinceLine) {
+        private JavaMethod(final String signature, final boolean declaration, final SearchType searchType, final String searchedLine) {
             this.signature = signature
                     .strip() // since 11
                     .replace("{", isInnerDeclaration(signature, declaration) ? "{ ... }" : "")
                     .stripTrailing(); // since 11
             this.declaration = declaration;
-            final String[] strings = sinceLine
-                    .strip()
-                    .replace("*", "")
-                    .stripLeading() // since 11
-                    .split("\\s+");
-            if (strings.length > 1) {
-                release = strings[1];
-            }
-            else {
-                release = JavaRelease.JAVA_ALL.toString();
-            }
+            this.searchType = searchType;
+            this.searchedLine = searchedLine.strip();
+            this.release = JavaRelease.fromSearchedLine(searchedLine, searchType);
         }
 
         private JavaRelease getRelease() {
@@ -293,7 +313,14 @@ class WhatsNewInJava implements Callable<Integer> {
                 stringBuilder.append(";");
             }
             if (!release.isBlank()) {
-                stringBuilder.append(" // since ").append(release);
+                stringBuilder.append(" // ");
+                if (searchType == SearchType.SINCE) {
+                    stringBuilder.append("since ")
+                            .append(release);
+                }
+                else {
+                    stringBuilder.append(searchedLine);
+                }
             }
             return stringBuilder.toString();
         }
@@ -329,8 +356,34 @@ class WhatsNewInJava implements Callable<Integer> {
             return JavaRelease.valueOf("JAVA_" + effectiveRelease);
         }
 
+        public static String fromSearchedLine(final String searchedLine, final SearchType searchType) {
+            final Optional<String> optionalRelease = searchType == SearchType.SINCE ? fromSinceLine(searchedLine) : fromDeprecatedLine(searchedLine);
+            return optionalRelease.orElse(JavaRelease.JAVA_ALL.toString());
+        }
+
         public boolean matches(final String release) {
             return this == JAVA_ALL || release.equals(this.toString());
+        }
+
+        private static Optional<String> fromSinceLine(final String sinceLine) {
+            final String[] strings = sinceLine
+                    .strip()
+                    .replace("*", "")
+                    .stripLeading() // since 11
+                    .split("\\s+");
+            if (strings.length > 1) {
+                return Optional.of(strings[1]);
+            }
+            return Optional.empty();
+        }
+
+        private static Optional<String> fromDeprecatedLine(final String deprecatedLine) {
+            final var sincePattern = Pattern.compile(".*since=\"(.+)\".*");
+            final var matcher = sincePattern.matcher(deprecatedLine);
+            if (matcher.matches()) {
+                return Optional.of(matcher.group(1));
+            }
+            return Optional.empty();
         }
 
         @Override
