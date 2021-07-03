@@ -12,7 +12,7 @@ import static java.lang.System.out;
 
 public class {baseName} {
 
-    private static final {baseName} INSTANCE = new {baseName}();
+    private static final <script under test> INSTANCE = new <script under test>();
 
     public static void main(final String... args) throws ClassNotFoundException {
         new JUnitCore().run(Request.aClass({baseName}.class));
