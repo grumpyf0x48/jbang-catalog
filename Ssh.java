@@ -1,10 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS org.apache.commons:commons-lang3:3.11
-//DEPS org.apache.sshd:sshd-core:2.6.0
-//DEPS org.apache.logging.log4j:log4j-api:2.7
-//DEPS org.apache.logging.log4j:log4j-core:2.7
-//DEPS org.apache.logging.log4j:log4j-slf4j-impl:2.7
+//DEPS org.apache.commons:commons-lang3:3.12.0
+//DEPS org.apache.sshd:sshd-core:2.7.0
 //DEPS info.picocli:picocli:4.6.1
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +52,8 @@ class Ssh implements Callable<Integer> {
     @Parameters(arity = "0..*", index = "1..*", description = "Command to execute and its parameters")
     private final List<String> command = new ArrayList<>();
 
-    private String user, hostname;
+    private String user;
+    private String hostname;
 
     public static void main(final String... args) {
         int exitCode = new CommandLine(new Ssh()).execute(args);
