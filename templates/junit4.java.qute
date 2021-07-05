@@ -11,10 +11,14 @@ import static java.lang.System.out;
 
 public class {baseName} {
 
+    private static final {scriptName} INSTANCE = new {scriptName}();
+
+    // Run all tests with ./{baseName}.java
     public static void main(final String... args) {
         new JUnitCore().run(Request.aClass({baseName}.class));
     }
 
+    // Declare Unit tests
     @Test
     public void test() {
         out.println("Running test");
