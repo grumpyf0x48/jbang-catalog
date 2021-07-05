@@ -14,7 +14,7 @@ public class {baseName} {
     private static final {scriptName} INSTANCE = new {scriptName}();
 
     // All Unit tests can be started with JBang:
-    // $ ./{baseName}.java
+    // ./{baseName}.java
     public static void main(final String... args) {
         new JUnitCore().run(Request.aClass({baseName}.class));
     }
