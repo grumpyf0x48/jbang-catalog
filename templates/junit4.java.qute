@@ -19,7 +19,7 @@ public class {baseName} {
         new JUnitCore().run(Request.aClass({baseName}.class));
     }
 
-    // Each Unit test runnable in IDE
+    // Each Unit test is runnable in the IDE
     @Test
     public void test() {
         out.println("Running test for: " + INSTANCE);
