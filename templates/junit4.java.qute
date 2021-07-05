@@ -1,7 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //DEPS junit:junit-dep:4.11
-//TODO Add //SOURCES <script under test>.java
+//SOURCES {scriptName}.java
 
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
