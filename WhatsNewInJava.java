@@ -70,7 +70,7 @@ class WhatsNewInJava implements Callable<Integer> {
         searchPath = searchFile.getPath();
 
         if (verbose) {
-            System.out.printf("Listing new methods for classes: %s since releases: %s parsing sources in: %s category: %s %n%n",
+            System.out.printf("Listing new methods for classes: %s since releases: %s parsing sources in: %s module: %s %n%n",
                     Arrays.deepToString(classNames), Arrays.deepToString(releases), sourcesPath, module);
         }
 
