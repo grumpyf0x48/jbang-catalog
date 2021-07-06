@@ -379,7 +379,7 @@ class WhatsNewInJava implements Callable<Integer> {
         }
 
         private static Optional<String> fromDeprecatedLine(final String deprecatedLine) {
-            final var sincePattern = Pattern.compile(".*since=\"(.+)\".*");
+            final var sincePattern = Pattern.compile(".*since\\s*=\\s*\"(.+)\".*");
             final var matcher = sincePattern.matcher(deprecatedLine);
             if (matcher.matches()) {
                 return Optional.of(matcher.group(1));
