@@ -363,7 +363,7 @@ class WhatsNewInJava implements Callable<Integer> {
         }
 
         public boolean matches(final String release) {
-            return this == JAVA_ALL || release.equals(this.toString());
+            return this == JAVA_ALL || release.equals(JAVA_ALL.toString()) || release.equals(this.toString());
         }
 
         private static Optional<String> fromSinceLine(final String sinceLine) {
