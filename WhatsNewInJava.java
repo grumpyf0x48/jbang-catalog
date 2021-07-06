@@ -248,6 +248,7 @@ class WhatsNewInJava implements Callable<Integer> {
         private JavaMethod(final String signature, final boolean declaration, final SearchType searchType, final String searchedLine) {
             this.signature = signature
                     .strip() // since 11
+                    .replace("}", "")
                     .replace("{", isInnerDeclaration(signature, declaration) ? "{ ... }" : "")
                     .stripTrailing(); // since 11
             this.declaration = declaration;
