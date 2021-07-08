@@ -354,7 +354,7 @@ Display methods added to a Java class in a given JDK release
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 1.8 java.lang.Iterable java.util.Collection java.util.List
 ```
 
-```console
+```java
 public interface Iterable<T> // since 1.5
 {
     default void forEach(Consumer<? super T> action); // since 1.8
