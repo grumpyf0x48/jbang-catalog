@@ -354,7 +354,7 @@ Display methods added to a Java class in a given JDK release
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 1.8 java.lang.Iterable java.util.Collection java.util.List
 ```
 
-```console
+```java
 public interface Iterable<T> // since 1.5
 {
     default void forEach(Consumer<? super T> action); // since 1.8
@@ -383,7 +383,7 @@ public interface List<E> extends Collection<E> // since 1.2
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 java.util.Optional java.util.stream.Stream java.util.stream.Collectors
 ```
 
-```console
+```java
 public final class Optional<T> // since 1.8
 {
     public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction); // since 9
@@ -421,7 +421,7 @@ public final class Collectors // since 1.8
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 1.8 java.nio.file.*
 ```
 
-```console
+```java
 public final class Files // since 1.7
 {
     public static BufferedReader newBufferedReader(Path path) throws IOException; // since 1.8
@@ -444,7 +444,7 @@ public final class FileTime // since 1.7
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --show-abstract-classes --release 9 java.lang.Process java.lang.ProcessHandle
 ```
 
-```console
+```java
 public interface ProcessHandle extends Comparable<ProcessHandle> // since 9
 {
     public interface Info; // since 9
@@ -468,7 +468,7 @@ public abstract class Process
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --only-class-names --release 9 java.time.*
 ```
 
-```console
+```java
 public final class OffsetTime // since 1.8
 public final class LocalDate // since 1.8
 public final class LocalTime // since 1.8
@@ -484,7 +484,7 @@ public final class IsoChronology extends AbstractChronology implements Serializa
 jbang whats-new-in-java@grumpyf0x48 --source-path /usr/lib/jvm/openjdk-11 --release 11 java.lang.String.*
 ```
 
-```console
+```java
 public final class String
 {
     public String strip(); // since 11
@@ -512,7 +512,7 @@ public final class StringBuffer
 jbang whats-new-in-java@grumpyf0x48 -d -r 9 java.lang.Integer java.lang.Long java.lang.Double
 ```
 
-```console
+```java
 public final class Long extends Number implements Comparable<Long> // since 1.0
 {
     public Long(long value); // @Deprecated(since="9")
@@ -538,7 +538,7 @@ public final class Integer extends Number implements Comparable<Integer> // sinc
 jbang whats-new-in-java@grumpyf0x48 -d -r ALL java.util.concurrent.atomic.*
 ```
 
-```console
+```java
 public class AtomicLong extends Number implements java.io.Serializable // since 1.5
 {
     public final boolean weakCompareAndSet(long expectedValue, long newValue); // @Deprecated(since="9")
@@ -568,7 +568,7 @@ public class AtomicLongArray implements java.io.Serializable // since 1.5
 jbang whats-new-in-java@grumpyf0x48 -d -r ALL java.lang.Thread
 ```
 
-```console
+```java
 public class Thread implements Runnable // since 1.0
 {
     public final void stop(); // @Deprecated(since="1.2")
