@@ -43,8 +43,11 @@ class WhatsNewInJava implements Callable<Integer> {
     @Option(names = {"--only-class-names", "-c"}, defaultValue = "false", description = "Show only names of modified classes, not their methods (default: ${DEFAULT-VALUE})")
     boolean showOnlyClassNames;
 
-    @Option(names = {"--deprecation", "-d"}, defaultValue = "false", description = "Show deprecated methods instead of added or updated ones")
+    @Option(names = {"--deprecation", "-d"}, defaultValue = "false", description = "Show deprecated methods instead of added or updated ones (default: ${DEFAULT-VALUE})")
     boolean showDeprecatedMethods;
+
+    @Option(names = {"--all-deprecations"}, defaultValue = "false", description = "Show deprecated methods without 'since' mention (regardless of '--release') (default: ${DEFAULT-VALUE})")
+    boolean allDeprecations;
 
     @Option(names = {"--verbose", "-v"}, defaultValue = "false", description = "Activate verbose mode (default: ${DEFAULT-VALUE})")
     boolean verbose;
@@ -203,7 +206,7 @@ class WhatsNewInJava implements Callable<Integer> {
                     .append(line.stripLeading());
             }
 
-            action.accept(new JavaMethod(signatureBuilder.toString(), declaration, effectiveSearchType, searchedLine));
+            action.accept(new JavaMethod(signatureBuilder.toString(), declaration, effectiveSearchType, searchedLine, allDeprecations ));
             if (declaration) {
                 declaration = false;
             }
@@ -244,8 +247,9 @@ class WhatsNewInJava implements Callable<Integer> {
         private final SearchType searchType;
         private final String searchedLine;
         private final String release;
+        private final boolean allDeprecations;
 
-        private JavaMethod(final String signature, final boolean declaration, final SearchType searchType, final String searchedLine) {
+        private JavaMethod(final String signature, final boolean declaration, final SearchType searchType, final String searchedLine, boolean allDeprecations) {
             this.signature = signature
                     .strip() // since 11
                     .replace("}", "")
@@ -255,6 +259,7 @@ class WhatsNewInJava implements Callable<Integer> {
             this.searchType = searchType;
             this.searchedLine = searchedLine.strip();
             this.release = JavaRelease.fromSearchedLine(searchedLine, searchType);
+            this.allDeprecations = allDeprecations;
         }
 
         private JavaRelease getRelease() {
@@ -264,7 +269,7 @@ class WhatsNewInJava implements Callable<Integer> {
         private boolean isNewInReleases(final JavaRelease[] releases) {
             return Arrays
                     .stream(releases)
-                    .anyMatch(javaRelease -> javaRelease.matches(release));
+                    .anyMatch(javaRelease -> (allDeprecations && release.equals(JavaRelease.JAVA_NOT_SET.toString())) || javaRelease.matches(release));
         }
 
         private static boolean isInnerDeclaration(final String signature, final boolean declaration) {
@@ -350,7 +355,8 @@ class WhatsNewInJava implements Callable<Integer> {
         JAVA_15,
         JAVA_16,
         JAVA_17,
-        JAVA_ALL;
+        JAVA_ALL,
+        JAVA_NOT_SET;
 
         public static JavaRelease from(final String release) {
             var effectiveRelease = release.contains(".") ? release.split("\\.")[1] : release;
@@ -359,7 +365,7 @@ class WhatsNewInJava implements Callable<Integer> {
 
         public static String fromSearchedLine(final String searchedLine, final SearchType searchType) {
             final Optional<String> optionalRelease = searchType == SearchType.SINCE ? fromSinceLine(searchedLine) : fromDeprecatedLine(searchedLine);
-            return optionalRelease.orElse(JavaRelease.JAVA_ALL.toString());
+            return optionalRelease.orElse(JavaRelease.JAVA_NOT_SET.toString());
         }
 
         public boolean matches(final String release) {
@@ -413,6 +419,8 @@ class WhatsNewInJava implements Callable<Integer> {
                     return this.name().split("_")[1];
                 case JAVA_ALL:
                     return "ALL";
+                case JAVA_NOT_SET:
+                    return "NOT_SET";
                 default:
                     throw new IllegalArgumentException("Unknown Java release: " + this);
             }

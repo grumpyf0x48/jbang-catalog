@@ -286,19 +286,21 @@ Written with Java 11, JBang and Picocli.
 
 ```console
 $ jbang whats-new-in-java@grumpyf0x48 --help
-Usage: WhatsNewInJava [-abcdhvV] [-m=<module>] [-s=<sourcesPath>]
-                      [-r=release]... <classNames>...
+Usage: WhatsNewInJava [-abcdhvV] [--all-deprecations] [-m=<module>]
+                      [-s=<sourcesPath>] [-r=release]... <classNames>...
 Display methods added to a Java class in a given JDK release
       <classNames>...      Class names or regexps
   -a, --not-modified-classes
                            Show all classes even not modified ones (default:
                              false)
+      --all-deprecations   Show deprecated methods without 'since' mention
+                             (regardless of '--release') (default: false)
   -b, --show-abstract-classes
                            Show abstract classes (default: false)
   -c, --only-class-names   Show only names of modified classes, not their
                              methods (default: false)
   -d, --deprecation        Show deprecated methods instead of added or updated
-                             ones
+                             ones (default: false)
   -h, --help               Show this help message and exit.
   -m, --module=<module>    Module (java.base, java.desktop, java.logging ...)
                              where to search classes (default: java.base)
