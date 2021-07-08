@@ -416,11 +416,9 @@ class WhatsNewInJava implements Callable<Integer> {
                 case JAVA_15:
                 case JAVA_16:
                 case JAVA_17:
-                    return this.name().split("_")[1];
                 case JAVA_ALL:
-                    return "ALL";
                 case JAVA_NOT_SET:
-                    return "NOT_SET";
+                    return this.name().split("_")[1];
                 default:
                     throw new IllegalArgumentException("Unknown Java release: " + this);
             }
