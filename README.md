@@ -26,14 +26,14 @@ My collection of [JBang](https://www.jbang.dev) scripts.
 
 ## Install JBang
 
-```console
-$ curl -Ls https://sh.jbang.dev | bash -s -
+```sh
+curl -Ls https://sh.jbang.dev | bash -s -
 ```
 
 Then:
 
-```console
-$ export PATH=$HOME/.jbang/bin:$PATH
+```sh
+export PATH=$HOME/.jbang/bin:$PATH
 ```
 
 ## Ssh
@@ -42,8 +42,11 @@ A basic SSH client.
 
 Written with Apache Mina, JBang and Picocli.
 
+```sh
+jbang ssh@grumpyf0x48 --help
+```
+
 ```console
-$ jbang ssh@grumpyf0x48 --help
 Usage: Ssh [-hV] [-a=<authenticationTimeout>] [-c=<connectionTimeout>]
            [-i=<identityFile>] [-p=<password>] [--port=<port>] <destination>
            [<command>...]
