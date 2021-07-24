@@ -9,19 +9,17 @@ import org.junit.runner.Request;
 
 import static java.lang.System.out;
 
+// Test class for {scriptName}
 public class {baseName} {
 
-    private static final {scriptName} INSTANCE = new {scriptName}();
-
-    // All Unit tests can be started with JBang:
-    // ./{baseName}.java
+    // Run all Unit tests with JBang with ./{baseName}.java
     public static void main(final String... args) {
         new JUnitCore().run(Request.aClass({baseName}.class));
     }
 
-    // Each Unit test is runnable in the IDE
+    // Define each Unit test here and run them separately in the IDE
     @Test
     public void test() {
-        out.println("Running test for: " + INSTANCE);
+        out.println("Running test for: " + {scriptName}.class);
     }
 }
