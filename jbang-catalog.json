@@ -40,6 +40,12 @@
       },
       "description": "Basic template for JUnit4 tests"
     },
+    "junit4b": {
+      "file-refs": {
+        "{basename}.java": "templates/junit4b.java.qute"
+      },
+      "description": "Basic template for JUnit4 tests"
+    },
     "junit5": {
       "file-refs": {
         "{basename}.java": "templates/junit5.java.qute"

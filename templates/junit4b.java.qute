@@ -1,0 +1,49 @@
+///usr/bin/env jbang "$0" "$@" ; exit $?
+
+//DEPS junit:junit-dep:4.11
+
+//SOURCES {baseName}.java
+
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Request;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
+import static java.lang.System.out;
+
+// JUnit4 Test class for {baseName}
+public class {baseName}Test {
+
+    // Run all Unit tests with JBang with ./{baseName}.java
+    public static void main(final String... args) {
+        final Request request = Request.aClass({baseName}.class);
+        final JUnitCore runner = new JUnitCore();
+        final Result result = runner.run(request);
+        out.println(toString(result));
+    }
+
+    // Define each Unit test here and run them separately in the IDE
+    @Test
+    public void test() {
+    }
+
+    private static String toString(final Result result) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Results:")
+                .append('\n')
+                .append('\n');
+        if (result.getFailureCount() > 0) {
+            builder.append("Failed tests:")
+                    .append('\n');
+            for (final Failure failure : result.getFailures()) {
+                builder.append('\t')
+                        .append(failure.getDescription() + " " + failure.getMessage());
+            }
+            builder.append('\n')
+                    .append('\n');
+        }
+        builder.append(String.format("Tests run: %d, Failure: %d, Skipped: %d", result.getRunCount(), result.getFailureCount(), result.getIgnoreCount()));
+        return builder.toString();
+    }
+}
