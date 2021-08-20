@@ -38,7 +38,6 @@ public class {baseName} {
     // Define each Unit test here and run them separately in the IDE
     @Test
     public void test() {
-        out.println("Running test for: " + {scriptName}.class);
     }
 
     private static String summary(final TestExecutionSummary summary) {
