@@ -20,7 +20,7 @@ public class {baseName} {
         final Request request = Request.aClass({baseName}.class);
         final JUnitCore runner = new JUnitCore();
         final Result result = runner.run(request);
-        out.println(toString(result));
+        out.println(summary(result));
     }
 
     // Define each Unit test here and run them separately in the IDE
@@ -28,7 +28,7 @@ public class {baseName} {
     public void test() {
     }
 
-    private static String toString(final Result result) {
+    private static String summary(final Result result) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Results:")
                 .append('\n')
@@ -43,7 +43,12 @@ public class {baseName} {
             builder.append('\n')
                     .append('\n');
         }
-        builder.append(String.format("Tests run: %d, Failure: %d, Skipped: %d", result.getRunCount(), result.getFailureCount(), result.getIgnoreCount()));
+        final String message = String.format(
+            "Tests run: %d, Failure: %d, Skipped: %d",
+            result.getRunCount(),
+            result.getFailureCount(),
+            result.getIgnoreCount())
+        builder.append(message);
         return builder.toString();
     }
 }
