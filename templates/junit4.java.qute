@@ -38,7 +38,9 @@ public class {baseName} {
                     .append('\n');
             for (final Failure failure : result.getFailures()) {
                 builder.append('\t')
-                        .append(failure.getDescription() + " " + failure.getMessage());
+                        .append(failure.getDescription())
+                        .append(' ')
+                        .append(failure.getMessage());
             }
             builder.append('\n')
                     .append('\n');
@@ -47,7 +49,7 @@ public class {baseName} {
             "Tests run: %d, Failure: %d, Skipped: %d",
             result.getRunCount(),
             result.getFailureCount(),
-            result.getIgnoreCount())
+            result.getIgnoreCount());
         builder.append(message);
         return builder.toString();
     }

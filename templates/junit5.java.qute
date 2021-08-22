@@ -50,7 +50,9 @@ public class {baseName} {
                     .append('\n');
             for (final Failure failure : summary.getFailures()) {
                 builder.append('\t')
-                        .append(failure.getTestIdentifier() + " " + failure.getException().getMessage());
+                        .append(failure.getTestIdentifier())
+                        .append(' ')
+                        .append(failure.getException().getMessage());
             }
             builder.append('\n')
                     .append('\n');
