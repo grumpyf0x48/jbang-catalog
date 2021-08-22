@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS junit:junit-dep:4.11
+//DEPS junit:junit:4.13.2
 
 //SOURCES {scriptName}.java
 
