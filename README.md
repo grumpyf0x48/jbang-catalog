@@ -22,6 +22,7 @@ My collection of [JBang](https://www.jbang.dev) scripts.
     + [List the `java.lang.Integer`, `java.lang.Long` ... methods made deprecated in Java 9](#list-the-javalanginteger-javalanglong--methods-made-deprecated-in-java-9)
     + [List the deprecated methods in package `java.util.concurrent.atomic`](#list-the-deprecated-methods-in-package-javautilconcurrentatomic)
     + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
+- [StatusCode](#statuscode)
 - [Install completion for a JBang script](#install-completion-for-a-jbang-script)
 
 ## Install JBang
@@ -576,6 +577,30 @@ public class Thread implements Runnable // since 1.0
     public final void resume(); // @Deprecated(since="1.2")
     public native int countStackFrames();  /** * Waits at most @code millis} milliseconds for this thread to; // @Deprecated(since="1.2", forRemoval=true)
 }
+```
+## StatusCode
+
+A sample sort program to illustrate Java 11 HttpClient use.
+
+Written with JBang, Picocli and HttpClient.
+
+```sh
+jbang statusCode@grumpyf0x48 --help
+```
+
+```console
+Usage: StatusCode [-hV] <url>
+StatusCode made with JBang and Java 11 HttpClient
+      <url>       source URL
+  -h, --help      Show this help message and exit.
+  -V, --version   Print version information and exit.
+```
+
+### Sample use
+
+```sh
+jbang statusCode@grumpyf0x48 https://framagit.org
+200
 ```
 
 ## Install completion for a JBang script

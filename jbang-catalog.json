@@ -31,6 +31,10 @@
     "whats-new-in-java": {
       "script-ref": "WhatsNewInJava.java",
       "description": "A command to display methods added to a Java class (or made deprecated) in a given JDK release. Written with Java 11, JBang and Picocli"
+    },
+    "statusCode": {
+      "script-ref": "StatusCode.java",
+      "description": "A sample sort program to illustrate Java 11 HttpClient use"
     }
   },
   "templates": {
