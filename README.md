@@ -2,7 +2,7 @@
 
 My collection of [JBang](https://www.jbang.dev) scripts.
  
-It contains various sample scripts and also **JUnit** 4 and 5 **templates** to help in writing tests for JBang scripts.
+It contains various sample scripts and [JUnit 4 and 5 templates](#junit-templates) to help in writing tests for **JBang** scripts.
 
 ## Table of contents
 
