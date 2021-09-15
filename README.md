@@ -1,6 +1,8 @@
 # jbang-catalog
 
-My collection of [JBang](https://www.jbang.dev) scripts and templates.
+My collection of [JBang](https://www.jbang.dev) scripts.
+ 
+It contains various sample scripts and also **JUnit** 4 and 5 **templates** to help in writing tests for JBang scripts.
 
 ## Table of contents
 
