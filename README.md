@@ -630,11 +630,9 @@ runs all tests it defines.
 The `main` method uses a `summary` method that helps in printing test results. The user is free to change this if it
 does not suit his needs.
 
-## JUnit 4 template
+### JUnit 4 template
 
 A JBang template to generate a basic JUnit 4 test for a JBang script.
-
-### Sample use
 
 To generate a JUnit 4 test class named `ScriptTest4` for a JBang script named `Script.java`:
 
@@ -651,11 +649,9 @@ Then, after adding tests to `ScriptTest4.java`, run it with:
 ./ScriptTest4.java
 ```
 
-## JUnit 5 template
+### JUnit 5 template
 
 A JBang template to generate a basic JUnit 5 test for a JBang script.
-
-### Sample use
 
 To generate a JUnit 5 test class named `ScriptTest5` for a JBang script named `Script.java`:
 
