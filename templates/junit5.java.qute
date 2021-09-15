@@ -15,6 +15,7 @@ import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import org.junit.platform.launcher.listeners.TestExecutionSummary.Failure;
 
+import static java.lang.System.exit;
 import static java.lang.System.out;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
@@ -33,6 +34,7 @@ public class {baseName} {
         out.println(summary(generatingListener.getSummary()));
         // The test summary can also be printed with:
         //generatingListener.getSummary().printTo(new PrintWriter(out));
+        exit(generatingListener.getSummary().getTestsFailedCount() > 0 ? 1 : 0);
     }
 
     // Define each Unit test here and run them separately in the IDE

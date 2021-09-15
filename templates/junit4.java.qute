@@ -10,6 +10,7 @@ import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import static java.lang.System.exit;
 import static java.lang.System.out;
 
 // JUnit4 Test class for {scriptName}
@@ -21,6 +22,7 @@ public class {baseName} {
         final JUnitCore runner = new JUnitCore();
         final Result result = runner.run(request);
         out.println(summary(result));
+        exit(result.getFailureCount() > 0 ? 1 : 0);
     }
 
     // Define each Unit test here and run them separately in the IDE
