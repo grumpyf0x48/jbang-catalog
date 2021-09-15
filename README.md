@@ -1,10 +1,14 @@
 # jbang-catalog
 
-My collection of [JBang](https://www.jbang.dev) scripts.
+My collection of [JBang](https://www.jbang.dev) scripts and templates.
 
 ## Table of contents
 
+### General
 - [Install JBang](#install-jbang)
+- [Generate the completion script for a JBang script](#generate-the-completion-script-for-a-jbang-script)
+
+### JBang Scripts
 - [Ssh](#ssh)
 - [Sort](#sort)
 - [Links](#links)
@@ -23,7 +27,10 @@ My collection of [JBang](https://www.jbang.dev) scripts.
     + [List the deprecated methods in package `java.util.concurrent.atomic`](#list-the-deprecated-methods-in-package-javautilconcurrentatomic)
     + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
 - [StatusCode](#statuscode)
-- [Install completion for a JBang script](#install-completion-for-a-jbang-script)
+
+### JBang Templates
+- [JUnit 4 template](#junit-4-template)
+- [JUnit 5 template](#junit-5-template)
 
 ## Install JBang
 
@@ -35,6 +42,16 @@ Then:
 
 ```sh
 export PATH=$HOME/.jbang/bin:$PATH
+```
+
+## Generate the completion script for a JBang script
+
+For example `WhatsNewInJava`:
+
+```sh
+jbang build WhatsNewInJava.java
+java -classpath $(jbang info classpath WhatsNewInJava.java) picocli.AutoComplete -f -n whats-new-in-java WhatsNewInJava
+sudo cp whats-new-in-java_completion /etc/bash_completion.d
 ```
 
 ## Ssh
@@ -603,12 +620,46 @@ jbang statusCode@grumpyf0x48 https://framagit.org
 200
 ```
 
-## Install completion for a JBang script
+## JUnit templates
 
-For example `WhatsNewInJava`:
+Each JUnit template contains a `main` method so that the generated test script can be run directly with JBang. It then
+runs all tests it defines.
+
+The `main` method uses a `summary` method that helps in printing test results. The user is free to change this if it
+does not suit his needs.
+
+## JUnit 4 template
+
+A JBang template to generate a basic JUnit 4 test for a JBang script.
+
+### Sample use
+
+To generate a JUnit 4 test class named `ScriptTest4` for a JBang script named `Script.java`:
 
 ```sh
-jbang build WhatsNewInJava.java
-java -classpath $(jbang info classpath WhatsNewInJava.java) picocli.AutoComplete -f -n whats-new-in-java WhatsNewInJava
-sudo cp whats-new-in-java_completion /etc/bash_completion.d
+jbang init -DscriptName=Script --template=junit4@grumpyf0x48 ScriptTest4.java
+```
+
+Then, after adding tests to `ScriptTest4.java`, run it with:
+
+```sh
+./ScriptTest4.java
+```
+
+## JUnit 5 template
+
+A JBang template to generate a basic JUnit 5 test for a JBang script.
+
+### Sample use
+
+To generate a JUnit 5 test class named `ScriptTest5` for a JBang script named `Script.java`:
+
+```sh
+jbang init -DscriptName=Script --template=junit5@grumpyf0x48 ScriptTest5.java
+```
+
+Then, after adding tests to `ScriptTest5.java`, run it with:
+
+```sh
+./ScriptTest5.java
 ```
