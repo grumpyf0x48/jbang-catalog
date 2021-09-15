@@ -639,6 +639,9 @@ To generate a JUnit 4 test class named `ScriptTest4` for a JBang script named `S
 ```sh
 jbang init -DscriptName=Script --template=junit4@grumpyf0x48 ScriptTest4.java
 ```
+The generated script looks like the following:
+
+![JUnit 4 generated script](JUnit4-Test-Script.png)
 
 Then, after adding tests to `ScriptTest4.java`, run it with:
 
