@@ -48,11 +48,12 @@ export PATH=$HOME/.jbang/bin:$PATH
 
 ## Generate the completion script for a JBang script
 
-For example `WhatsNewInJava`:
+For example with `WhatsNewInJava.java`:
 
 ```sh
 jbang build WhatsNewInJava.java
-java -classpath $(jbang info classpath WhatsNewInJava.java) picocli.AutoComplete -f -n whats-new-in-java WhatsNewInJava
+java -classpath $(jbang info classpath WhatsNewInJava.java) \
+    picocli.AutoComplete --force --name=whats-new-in-java WhatsNewInJava
 sudo cp whats-new-in-java_completion /etc/bash_completion.d
 ```
 
@@ -632,7 +633,7 @@ does not suit his needs.
 
 ### JUnit 4 template
 
-A JBang template to generate a basic JUnit 4 test for a JBang script.
+A template to generate a basic JUnit 4 test for a JBang script.
 
 To generate a JUnit 4 test class named `ScriptTest4` for a JBang script named `Script.java`:
 
@@ -649,9 +650,11 @@ Then, after adding tests to `ScriptTest4.java`, run it with:
 ./ScriptTest4.java
 ```
 
+When some tests are failing, the script returns exit code 1.
+
 ### JUnit 5 template
 
-A JBang template to generate a basic JUnit 5 test for a JBang script.
+A template to generate a basic JUnit 5 test for a JBang script.
 
 To generate a JUnit 5 test class named `ScriptTest5` for a JBang script named `Script.java`:
 
@@ -664,3 +667,5 @@ Then, after adding tests to `ScriptTest5.java`, run it with:
 ```sh
 ./ScriptTest5.java
 ```
+
+When some tests are failing, the script returns exit code 1.
