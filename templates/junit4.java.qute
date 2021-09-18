@@ -14,7 +14,7 @@ import static java.lang.System.exit;
 import static java.lang.System.out;
 import static org.junit.Assert.fail;
 
-// JUnit4 Test class for {scriptName}
+// JUnit 4 Test class for {scriptName}
 public class {baseName} {
 
     // Run all Unit tests with JBang with ./{baseName}.java

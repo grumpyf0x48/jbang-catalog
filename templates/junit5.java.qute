@@ -20,7 +20,7 @@ import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
-// JUnit5 Test class for {scriptName}
+// JUnit 5 Test class for {scriptName}
 public class {baseName} {
 
     // Run all Unit tests with JBang with ./{baseName}.java
