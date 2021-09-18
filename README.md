@@ -46,6 +46,12 @@ Then:
 export PATH=$HOME/.jbang/bin:$PATH
 ```
 
+And if you want to define the editor:
+
+```sh
+export JBANG_EDITOR=idea
+```
+
 ## Generate the completion script for a JBang script
 
 For example with `WhatsNewInJava.java`:
