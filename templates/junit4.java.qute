@@ -12,6 +12,7 @@ import org.junit.runner.notification.Failure;
 
 import static java.lang.System.exit;
 import static java.lang.System.out;
+import static org.junit.Assert.fail;
 
 // JUnit4 Test class for {scriptName}
 public class {baseName} {
@@ -28,6 +29,7 @@ public class {baseName} {
     // Define each Unit test here and run them separately in the IDE
     @Test
     public void test() {
+        fail("should implement");
     }
 
     private static String summary(final Result result) {

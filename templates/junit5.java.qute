@@ -17,6 +17,7 @@ import org.junit.platform.launcher.listeners.TestExecutionSummary.Failure;
 
 import static java.lang.System.exit;
 import static java.lang.System.out;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
 // JUnit5 Test class for {scriptName}
@@ -40,6 +41,7 @@ public class {baseName} {
     // Define each Unit test here and run them separately in the IDE
     @Test
     public void test() {
+        fail("should implement");
     }
 
     private static String summary(final TestExecutionSummary summary) {
