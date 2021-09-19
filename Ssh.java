@@ -155,7 +155,7 @@ class Ssh implements Callable<Integer> {
     }
 
     private String getPrompt(final ClientSession clientSession) throws IOException {
-        final String directory = clientSession.executeRemoteCommand("pwd").trim().replaceAll("\n ", "");
+        final String directory = clientSession.executeRemoteCommand("pwd").trim().replace("\n ", "");
         return String.format("%s@%s:%s$ ", user, hostname, directory);
     }
 }
