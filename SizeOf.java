@@ -58,7 +58,7 @@ class SizeOf implements Callable<Integer> {
             }
 
             final Object object = JAVA_TYPES.get(type);
-            System.out.printf("sizeof(%s)=%d, sizeof(%s)=%d\n",
+            System.out.printf("sizeof(%s)=%d, sizeof(%s)=%d%n",
                     type, virtualMachine.sizeOfField(type),
                     object.getClass().getSimpleName(), virtualMachine.sizeOf(object));
         }
