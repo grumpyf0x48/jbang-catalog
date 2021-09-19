@@ -6,6 +6,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -31,7 +32,7 @@ class StatusCode implements Callable<Integer> {
         final HttpRequest request = HttpRequest.newBuilder(url.toURI())
                 .GET()
                 .build();
-        final HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+        final HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
         final int statusCode = response.statusCode();
         System.out.println(statusCode);
         return statusCode;

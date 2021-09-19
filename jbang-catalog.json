@@ -49,6 +49,12 @@
         "{basename}.java": "templates/junit5.java.qute"
       },
       "description": "Basic template for JUnit5 tests"
+    },
+    "testng": {
+      "file-refs": {
+        "{basename}.java": "templates/testng.java.qute"
+      },
+      "description": "Basic template for TestNG tests"
     }
   }
 }

@@ -66,7 +66,7 @@ class GitGet extends AbstractGit {
                     FileUtils.copyFile(srcFile, destFile);
                 }
             } catch (final Exception exception) {
-                System.err.printf("Failed to copy %s to %s\n", path, directory);
+                System.err.printf("Failed to copy %s to %s%n", path, directory);
             }
         });
         return 0;

@@ -1,0 +1,66 @@
+///usr/bin/env jbang "$0" "$@" ; exit $?
+
+//DEPS org.testng:testng:7.4.0
+
+//SOURCES {scriptName}.java
+
+import org.testng.ITestResult;
+import org.testng.TestListenerAdapter;
+import org.testng.TestNG;
+import org.testng.annotations.Test;
+
+import static java.lang.System.exit;
+import static java.lang.System.out;
+import static org.testng.Assert.fail;
+
+// TestNG Test class for {scriptName}
+public class {baseName} {
+
+    // Run all Unit tests with JBang with ./{baseName}.java
+    public static void main(String[] args) {
+        final TestNG testSuite = new TestNG();
+        testSuite.setTestClasses(new Class[] { {baseName}.class });
+        testSuite.setDefaultSuiteName("{baseName}");
+        testSuite.setVerbose(0);
+        final TestListenerAdapter listenerAdapter = new TestListenerAdapter();
+        testSuite.addListener(listenerAdapter);
+        testSuite.run();
+        out.println(summary(listenerAdapter));
+        exit(!listenerAdapter.getFailedTests().isEmpty() ? 1 : 0);
+    }
+
+    // Define each Unit test here and run them separately in the IDE
+    @Test
+    public void test() {
+        fail("should implement");
+    }
+
+    private static String summary(final TestListenerAdapter summary) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Results:")
+                .append('\n')
+                .append('\n');
+        if (!summary.getFailedTests().isEmpty()) {
+            builder.append("Failed tests:")
+                    .append('\n');
+            for (final ITestResult failure : summary.getFailedTests()) {
+                builder.append('\t')
+                        .append(failure.getName())
+                        .append(' ')
+                        .append(failure.getThrowable().getMessage());
+            }
+            builder.append('\n')
+                    .append('\n');
+        }
+
+        final String message = String.format(
+                "Tests run: %d, Passed: %d, Failure: %d, Skipped: %d",
+                summary.getPassedTests().size() + summary.getFailedTests().size() + summary.getSkippedTests().size(),
+                summary.getPassedTests().size(),
+                summary.getFailedTests().size(),
+                summary.getSkippedTests().size());
+        builder.append(message);
+
+        return builder.toString();
+    }
+}

@@ -34,10 +34,12 @@ class GitClone extends AbstractGit {
         return directory;
     }
 
+    @Override
     public boolean isBare() {
         return bare;
     }
 
+    @Override
     public boolean isNoCheckout() {
         return noCheckout;
     }
