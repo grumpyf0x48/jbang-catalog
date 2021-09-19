@@ -10,6 +10,7 @@ import picocli.CommandLine.Parameters;
 import org.openjdk.jol.vm.VM;
 import org.openjdk.jol.vm.VirtualMachine;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -20,7 +21,7 @@ class SizeOf implements Callable<Integer> {
     private static final String[] DEFAULT_TYPES = {"byte", "boolean", "char", "short", "int", "float", "long", "double"};
 
     @Parameters(index = "0..*", arity = "0..*", description = "The primitive types (default: byte, boolean, char, short, int, float, long, double")
-    private final String[] types = DEFAULT_TYPES; // Default value declared here instead with @Parameters because it is an Array
+    private String[] types = DEFAULT_TYPES; // Default value declared here instead with @Parameters because it is an Array
 
     private static final Map<String, Object> JAVA_TYPES = new HashMap<>();
 
@@ -44,7 +45,7 @@ class SizeOf implements Callable<Integer> {
     public Integer call() {
         final VirtualMachine virtualMachine = VM.current();
 
-        final boolean defaultTypes = types.equals(DEFAULT_TYPES);
+        final boolean defaultTypes = Arrays.equals(types, DEFAULT_TYPES);
 
         for (int index = 0; index < types.length; index++) {
             final String type = types[index];
