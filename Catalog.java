@@ -1,14 +1,8 @@
+//SOURCES *.java
+//FILES templates/junit4.java.qute
+//FILES templates/junit5.java.qute
+//FILES templates/testng.java.qute
 //FILES README.md
-
-//SOURCES GitClone.java
-//SOURCES GitGet.java
-//SOURCES Html.java
-//SOURCES Links.java
-//SOURCES SizeOf.java
-//SOURCES Sort.java
-//SOURCES Ssh.java
-//SOURCES StatusCode.java
-//SOURCES WhatsNewInJava.java
 
 public class Catalog {
 }
