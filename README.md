@@ -2,7 +2,7 @@
 
 My collection of [JBang](https://www.jbang.dev) scripts.
  
-It contains various sample scripts and [JUnit 4 and 5 templates](#junit-templates) to help in writing tests for **JBang** scripts.
+It contains various sample scripts and test [templates for JUnit 4, JUnit 5 and TestNG](#test-templates) to help in writing tests for **JBang** scripts.
 
 ## Table of contents
 
@@ -30,9 +30,10 @@ It contains various sample scripts and [JUnit 4 and 5 templates](#junit-template
     + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
 - [StatusCode](#statuscode)
 
-### JBang Templates
+### JBang Test Templates
 - [JUnit 4 template](#junit-4-template)
 - [JUnit 5 template](#junit-5-template)
+- [TestNG template](#testng-template)
 
 ## Install JBang
 
@@ -629,49 +630,52 @@ jbang statusCode@grumpyf0x48 https://framagit.org
 200
 ```
 
-## JUnit templates
+## Test templates
 
-Each JUnit template contains a `main` method so that the generated test script can be run directly with JBang. It then
+Each template contains a `main` method so that the generated test script can be run directly with JBang. It then
 runs all tests it defines.
 
 The `main` method uses a `summary` method that helps in printing test results. The user is free to change this if it
 does not suit his needs.
 
+When some tests are failing, the script returns exit code 1, otherwise it returns 0.
+
 ### JUnit 4 template
 
-A template to generate a basic JUnit 4 test for a JBang script.
+A template to generate a basic JUnit 4 test script for a JBang script.
 
-To generate a JUnit 4 test class named `ScriptTest4` for a JBang script named `Script.java`:
+To generate a JUnit 4 test class named `ScriptTest` for a JBang script named `Script.java`:
 
 ```sh
-jbang init -DscriptName=Script --template=junit4@grumpyf0x48 ScriptTest4.java
+jbang init -DscriptName=Script --template=junit4@grumpyf0x48 ScriptTest.java
 ```
 The generated script looks like the following:
 
 ![JUnit 4 generated script](JUnit4-Test-Script.png)
 
-Then, after adding tests to `ScriptTest4.java`, run it with:
+Then, after adding tests to `ScriptTest.java`, run it with:
 
 ```sh
-./ScriptTest4.java
+./ScriptTest.java
 ```
-
-When some tests are failing, the script returns exit code 1.
 
 ### JUnit 5 template
 
-A template to generate a basic JUnit 5 test for a JBang script.
+A template to generate a basic JUnit 5 test script for a JBang script.
 
-To generate a JUnit 5 test class named `ScriptTest5` for a JBang script named `Script.java`:
-
-```sh
-jbang init -DscriptName=Script --template=junit5@grumpyf0x48 ScriptTest5.java
-```
-
-Then, after adding tests to `ScriptTest5.java`, run it with:
+To generate a JUnit 5 test class named `ScriptTest` for a JBang script named `Script.java`:
 
 ```sh
-./ScriptTest5.java
+jbang init -DscriptName=Script --template=junit5@grumpyf0x48 ScriptTest.java
 ```
 
-When some tests are failing, the script returns exit code 1.
+### TestNG template
+
+A template to generate a basic TestNG test script for a JBang script.
+
+To generate a TestNG test class named `ScriptTest` for a JBang script named `Script.java`:
+
+```sh
+jbang init -DscriptName=Script --template=testng@grumpyf0x48 ScriptTest.java
+```
+
