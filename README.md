@@ -8,6 +8,7 @@ It contains various sample scripts and test [templates for JUnit 4, JUnit 5 and 
 
 ### General
 - [Install JBang](#install-jbang)
+- [Install JBang completion script](#install-jbang-completion-script)
 - [Generate the completion script for a JBang script](#generate-the-completion-script-for-a-jbang-script)
 
 ### JBang Scripts
@@ -51,6 +52,13 @@ And if you want to define the editor:
 
 ```sh
 export JBANG_EDITOR=idea
+```
+
+## Install JBang completion script
+
+```sh
+jbang completion | sed 's/+o default/-o default/' \
+    | sudo tee /etc/bash_completion.d/jbang
 ```
 
 ## Generate the completion script for a JBang script
