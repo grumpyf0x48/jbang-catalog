@@ -2,7 +2,7 @@
   "aliases": {
     "ssh": {
       "script-ref": "Ssh.java",
-      "description": "A basic SSH client. Written with Apache Mina, JBang and Picocli"
+      "description": "A basic SSH client. Written with Java 11, Apache Mina, JBang and Picocli"
     },
     "sort": {
       "script-ref": "Sort.java",
