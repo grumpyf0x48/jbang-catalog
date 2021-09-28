@@ -76,7 +76,7 @@ sudo cp whats-new-in-java_completion /etc/bash_completion.d
 
 A basic SSH client.
 
-Written with Apache Mina, JBang and Picocli.
+Written with Java 11, Apache Mina, JBang and Picocli.
 
 ```sh
 jbang ssh@grumpyf0x48 --help
