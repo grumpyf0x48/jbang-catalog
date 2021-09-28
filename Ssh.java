@@ -1,4 +1,5 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 11+
 
 //DEPS org.apache.commons:commons-lang3:3.12.0
 //DEPS org.apache.sshd:sshd-core:2.7.0
