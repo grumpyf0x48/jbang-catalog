@@ -1,0 +1,27 @@
+name: ci-build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v1
+      - uses: actions/cache@v1
+        with:
+          path: /root/.jbang
+          key: ${{ runner.os }}-jbang-${{ hashFiles('*.java') }}
+          restore-keys: ${{ runner.os }}-jbang-
+
+      - name: install java 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: install jbang
+        uses: jbangdev/jbang-action@v0.80.2
+        with:
+          script: ./Sort.java
+          scriptargs: "--help"
+        env:
+          JBANG_REPO: /root/.jbang/repository
+          GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
