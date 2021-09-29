@@ -9,10 +9,14 @@
 //FILES README.md
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class Catalog {
     public static void main(final String[] args) throws IOException {
-        Runtime.getRuntime().exec("ls");
+        String userDirectory = Paths.get("")
+                .toAbsolutePath()
+                .toString();
+        System.out.println("userDirectory=" + userDirectory);
         System.exit(0);
     }
 }
