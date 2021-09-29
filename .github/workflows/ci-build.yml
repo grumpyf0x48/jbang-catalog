@@ -20,4 +20,4 @@ jobs:
           JBANG_REPO: /root/.jbang/repository
           GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
       - name: show jbang version
-        run: find / -name jbang
+        run: sudo find / -name jbang 2>/dev/null
