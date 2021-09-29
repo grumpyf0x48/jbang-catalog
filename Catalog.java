@@ -10,13 +10,11 @@
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class Catalog {
     public static void main(final String[] args) throws IOException {
-        String userDirectory = Paths.get("")
-                .toAbsolutePath()
-                .toString();
-        System.out.println("userDirectory=" + userDirectory);
+        Arrays.stream(Paths.get(".").toFile().list()).forEach(System.out::println);
         System.exit(0);
     }
 }
