@@ -19,5 +19,5 @@ jobs:
         env:
           JBANG_REPO: /root/.jbang/repository
           GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
-      -name: show jbang version
+      - name: show jbang version
         run: jbang version
