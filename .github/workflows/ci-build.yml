@@ -20,8 +20,8 @@ jobs:
       - name: install jbang
         uses: jbangdev/jbang-action@v0.80.2
         with:
-          script: ./Sort.java
-          scriptargs: "--help"
+          script: ./Catalog.java
+          jbangargs: --verbose
         env:
           JBANG_REPO: /root/.jbang/repository
           GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
