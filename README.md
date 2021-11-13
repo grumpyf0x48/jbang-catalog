@@ -1,5 +1,7 @@
 # jbang-catalog
 
+image:https://github.com/grumpyf0x48/jbang-catalog/workflows/ci-build/badge.svg[Build Status,link=https://github.com/grumpyf0x48/jbang-catalog/actions]
+
 My collection of [JBang](https://www.jbang.dev) scripts.
  
 It contains various sample scripts and test [templates for JUnit 4, JUnit 5 and TestNG](#test-templates) to help in writing tests for JBang scripts.
