@@ -35,7 +35,8 @@ public class {baseName} {
         out.println(summary(generatingListener.getSummary()));
         // The test summary can also be printed with:
         //generatingListener.getSummary().printTo(new PrintWriter(out));
-        exit(generatingListener.getSummary().getTestsFailedCount() > 0 ? 1 : 0);
+        final int exitCode = generatingListener.getSummary().getTestsFailedCount() > 0 ? 1 : 0;
+        exit(exitCode);
     }
 
     // Define each Unit test here and run them separately in the IDE

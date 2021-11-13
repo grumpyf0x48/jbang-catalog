@@ -23,7 +23,8 @@ public class {baseName} {
         final JUnitCore runner = new JUnitCore();
         final Result result = runner.run(request);
         out.println(summary(result));
-        exit(result.getFailureCount() > 0 ? 1 : 0);
+        final int exitCode = result.getFailureCount() > 0 ? 1 : 0;
+        exit(exitCode);
     }
 
     // Define each Unit test here and run them separately in the IDE
