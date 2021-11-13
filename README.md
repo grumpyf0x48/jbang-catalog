@@ -1,6 +1,6 @@
 # jbang-catalog
 
-image:https://github.com/grumpyf0x48/jbang-catalog/workflows/ci-build/badge.svg[Build Status,link=https://github.com/grumpyf0x48/jbang-catalog/actions]
+[![ci-build](https://github.com/grumpyf0x48/jbang-catalog/actions/workflows/ci-build.yml/badge.svg)](https://github.com/grumpyf0x48/jbang-catalog/actions/workflows/ci-build.yml)
 
 My collection of [JBang](https://www.jbang.dev) scripts.
  
