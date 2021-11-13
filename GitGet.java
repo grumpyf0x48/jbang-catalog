@@ -2,7 +2,7 @@
 
 //DEPS org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r
 //DEPS org.eclipse.jgit:org.eclipse.jgit.ssh.jsch:5.12.0.202106070339-r
-//DEPS info.picocli:picocli:4.6.1
+//DEPS info.picocli:picocli:4.6.2
 //DEPS commons-io:commons-io:2.8.0
 //SOURCES AbstractGit.java
 

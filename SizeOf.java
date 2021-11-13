@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS info.picocli:picocli:4.6.1
+//DEPS info.picocli:picocli:4.6.2
 //DEPS org.openjdk.jol:jol-core:0.16
 
 import picocli.CommandLine;

@@ -1,9 +1,9 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS com.google.code.gson:gson:2.3.1
+//DEPS com.google.code.gson:gson:2.8.9
 //DEPS commons-io:commons-io:2.8.0
-//DEPS org.jsoup:jsoup:1.10.2
-//DEPS info.picocli:picocli:4.6.1
+//DEPS org.jsoup:jsoup:1.14.3
+//DEPS info.picocli:picocli:4.6.2
 
 import com.google.gson.Gson;
 
