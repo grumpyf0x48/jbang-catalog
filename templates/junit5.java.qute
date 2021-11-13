@@ -33,9 +33,6 @@ public class {baseName} {
         final SummaryGeneratingListener generatingListener = new SummaryGeneratingListener();
         launcher.execute(request, generatingListener);
         out.println(summary(generatingListener.getSummary()));
-        // The test summary can also be printed with:
-        //generatingListener.getSummary().printTo(new PrintWriter(out));
-        final int exitCode = generatingListener.getSummary().getTestsFailedCount() > 0 ? 1 : 0;
         exit(exitCode);
     }
 
