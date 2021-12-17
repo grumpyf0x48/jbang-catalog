@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class Catalog {
     public static void main(final String[] args) throws IOException {
-        Arrays.stream(Paths.get(".").toFile().list()).forEach(System.out::println);
+        Arrays.stream(Paths.get(".").toFile().list((dir, name) -> name.endsWith(".java"))).forEach(System.out::println);
         System.exit(0);
     }
 }
