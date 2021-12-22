@@ -33,6 +33,9 @@ It contains various sample scripts and test [templates for JUnit 4, JUnit 5 and 
     + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
 - [StatusCode](#statuscode)
 
+### JBang CLI Template
+- [CLI template](#cli-template)
+
 ### JBang Test Templates
 - [JUnit 4 template](#junit-4-template)
 - [JUnit 5 template](#junit-5-template)
@@ -640,6 +643,14 @@ jbang statusCode@grumpyf0x48 https://framagit.org
 200
 ```
 
+## CLI Template
+
+A 'cli' template to write a Picocli-based command with default JAVA, JAVA_OPTIONS and JAVAC_OPTIONS set:
+
+```sh
+jbang init --template=cli@grumpyf0x48 -DJAVA=11 Java11.java
+```
+
 ## Test templates
 
 Each template contains a `main` method so that the generated test script can be run directly with JBang. It then
@@ -659,6 +670,7 @@ To generate a JUnit 4 test class named `ScriptTest` for a JBang script named `Sc
 ```sh
 jbang init -DscriptName=Script --template=junit4@grumpyf0x48 ScriptTest.java
 ```
+
 The generated script looks like the following:
 
 ![JUnit 4 generated script](JUnit4-Test-Script.png)

@@ -1,4 +1,5 @@
 {
+  "catalogs": {},
   "aliases": {
     "ssh": {
       "script-ref": "Ssh.java",
@@ -55,6 +56,12 @@
         "{basename}.java": "templates/testng.java.qute"
       },
       "description": "Basic template for TestNG tests"
+    },
+    "cli": {
+      "file-refs": {
+        "{basename}.java": "templates/cli.java.qute"
+      },
+      "description": "Basic template for CLI with Picocli"
     }
   }
 }
