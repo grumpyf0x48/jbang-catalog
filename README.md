@@ -700,4 +700,3 @@ To generate a TestNG test class named `ScriptTest` for a JBang script named `Scr
 ```sh
 jbang init -DscriptName=Script --template=testng@grumpyf0x48 ScriptTest.java
 ```
-
