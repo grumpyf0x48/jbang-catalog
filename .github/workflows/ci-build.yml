@@ -15,7 +15,7 @@ jobs:
           restore-keys: ${{ runner.os }}-jbang-
 
       - name: compile scripts
-        uses: jbangdev/jbang-action@v0.84.2
+        uses: jbangdev/jbang-action@v0.85.1
         with:
           script: Catalog.java
         env:
