@@ -2,7 +2,7 @@
 //JAVA 11+
 
 //DEPS org.apache.commons:commons-lang3:3.12.0
-//DEPS org.apache.sshd:sshd-core:2.7.0
+//DEPS org.apache.sshd:sshd-core:2.8.0
 //DEPS info.picocli:picocli:4.6.2
 
 import org.apache.commons.lang3.StringUtils;
