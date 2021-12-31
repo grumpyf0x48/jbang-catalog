@@ -33,8 +33,8 @@ It contains various sample scripts and test [templates for JUnit 4, JUnit 5 and 
     + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
 - [StatusCode](#statuscode)
 
-### JBang CLI Template
-- [CLI template](#cli-template)
+### JBang CLI Templates
+- [CLI templates](#cli-templates)
 
 ### JBang Test Templates
 - [JUnit 4 template](#junit-4-template)
@@ -643,13 +643,15 @@ jbang statusCode@grumpyf0x48 https://framagit.org
 200
 ```
 
-## CLI Template
+## CLI Templates
 
 A CLI template to write a Picocli-based command with default `JAVA`, `JAVA_OPTIONS` and `JAVAC_OPTIONS` set:
 
 ```sh
 jbang init --template=cli@grumpyf0x48 -DJAVA=11 Java11.java
 ```
+
+Other templates also exist for Java 11 `cli11` and for Java 17 `cli17`.
 
 ## Test templates
 
