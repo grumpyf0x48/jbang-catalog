@@ -62,7 +62,8 @@ export JBANG_EDITOR=idea
 ## Install JBang completion script
 
 ```sh
-jbang completion | sed 's/+o default/-o default/' \
+jbang completion \
+    | sed 's/+o default/-o default/' \
     | sudo tee /etc/bash_completion.d/jbang
 ```
 
