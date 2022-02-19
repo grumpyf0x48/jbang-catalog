@@ -627,11 +627,28 @@ A program to compute the result of a weighted vote.
 
 See [Décider avec le vote pondéré par capital de points](https://www.manager-go.com/gestion-de-projet/dossiers-methodes/vote-pondere-par-capital-de-points).
 
-It makes use of Java `Stream` filter, map, reduce (and collect) pattern, shows `Stream.chars()`, `Stream.iterate(...)` and `Map` sorting usage and uses Java 15 text blocks.
+It makes use of Java `Stream` filter, map, reduce (and collect) pattern, shows `Stream.chars()`, `Stream.iterate(...)` and `Map` sorting usage.
+
+[Vote test script](./tests/VoteTest.java) validates Vote's output, can be run in IDEA and terminal and uses Java 15 text blocks.
 
 Written with JBang, Picocli.
 
 ### Sample use
+
+With an input text file containing the following pondered votes (First option has value 4, then 3, then 2 and finally 1):
+
+```sh
+cat vote.txt
+```
+
+```console
+H N T B
+T N H B
+N B T H
+B T N H
+```
+
+and with vote options being: H, N, T and B.
 
 ```sh
 jbang vote@grumpyf0x48 HNTB vote.txt
@@ -648,20 +665,7 @@ B=4 T=3 N=2 H=1
 N=12 T=11 B=9 H=8
 ```
 
-where the vote options are: H, N, T and B and `vote.txt` is a text file with pondered votes (with points 4, 3, 2, 1):
-
-```sh
-cat vote.txt
-```
-
-```console
-H N T B
-T N H B
-N B T H
-B T N H
-```
-
-The winner is N with 12 points.
+and winner is N with 12 points.
 
 ## StatusCode
 
