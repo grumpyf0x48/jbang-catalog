@@ -635,7 +635,7 @@ Written with JBang, Picocli.
 
 ### Sample use
 
-With an input text file containing the following pondered votes (First option has value 4, then 3, then 2 and finally 1):
+With an input file containing the following pondered votes (First option has value 4, then 3, then 2 and finally 1):
 
 ```sh
 cat vote.txt
@@ -651,7 +651,13 @@ B T N H
 and with vote options being: H, N, T and B:
 
 ```sh
-jbang vote@grumpyf0x48 HNTB vote.txt
+jbang vote@grumpyf0x48 HNTB -f vote.txt
+```
+
+or:
+
+```sh
+cat vote.txt | jbang vote@grumpyf0x48 HNTB
 ```
 
 The program output is:
@@ -665,7 +671,7 @@ B=4 T=3 N=2 H=1
 N=12 T=11 B=9 H=8
 ```
 
-and winner is N with 12 points.
+So the winner is N with 12 points.
 
 ## StatusCode
 

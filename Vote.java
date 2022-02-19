@@ -5,10 +5,14 @@
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,8 +30,8 @@ public class Vote implements Callable<Integer> {
     @Parameters(arity = "1", index = "0", description = "Options to vote for")
     String voteOptions;
 
-    @Parameters(arity = "1", index = "1", description = "Text file with votes")
-    Path filePath;
+    @Option(names = {"-f", "--filepath"}, description = "Text file with votes")
+    String filePath;
 
     public static void main(final String... args) {
         System.exit(new CommandLine(new Vote()).execute(args));
@@ -35,7 +39,7 @@ public class Vote implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        getPointsPerOption(lines(filePath), voteOptions, System.out);
+        getPointsPerOption(getLines(filePath), voteOptions, System.out);
         return 0;
     }
 
@@ -76,6 +80,13 @@ public class Vote implements Callable<Integer> {
         final Map<Character, Integer> sortedPointsPerOption = sortByReverseValue(pointsPerOption);
         votePrinter.addVoteResults(sortedPointsPerOption);
         return sortedPointsPerOption;
+    }
+
+    private static Stream<String> getLines(final String filePath) throws IOException {
+        if (filePath != null) {
+            return lines(Paths.get(filePath));
+        }
+        return new BufferedReader(new InputStreamReader(System.in)).lines();
     }
 
     private static String getDistinctLetters(final String line) {
