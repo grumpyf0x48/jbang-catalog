@@ -633,6 +633,9 @@ Written with JBang, Picocli.
 
 ```sh
 jbang vote@grumpyf0x48 HNTB vote.txt
+```
+
+```console
 H=4 N=3 T=2 B=1
 T=4 N=3 H=2 B=1
 N=4 B=3 T=2 H=1
