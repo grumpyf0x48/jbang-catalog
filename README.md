@@ -623,7 +623,9 @@ public class Thread implements Runnable // since 1.0
 
 ## Vote
 
-A program to compute the result of a weighted vote. See [Décider avec le vote pondéré par capital de points](https://www.manager-go.com/gestion-de-projet/dossiers-methodes/vote-pondere-par-capital-de-points).
+A program to compute the result of a weighted vote.
+
+See [Décider avec le vote pondéré par capital de points](https://www.manager-go.com/gestion-de-projet/dossiers-methodes/vote-pondere-par-capital-de-points).
 
 It makes use of Java `Stream` filter, map, reduce (and collect) pattern, shows `Stream.chars()`, `Stream.iterate(...)` and `Map` sorting usage and uses Java 15 text blocks.
 
