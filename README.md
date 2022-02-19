@@ -648,7 +648,7 @@ N B T H
 B T N H
 ```
 
-and with vote options being: H, N, T and B.
+and with vote options being: H, N, T and B:
 
 ```sh
 jbang vote@grumpyf0x48 HNTB vote.txt
