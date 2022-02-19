@@ -36,6 +36,10 @@
     "statusCode": {
       "script-ref": "StatusCode.java",
       "description": "A sample sort program to illustrate Java 11 HttpClient use"
+    },
+    "vote": {
+      "script-ref": "Vote.java",
+      "description": "A program to compute the result of a weighted vote"
     }
   },
   "templates": {

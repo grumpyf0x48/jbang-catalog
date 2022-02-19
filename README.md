@@ -31,6 +31,7 @@ It contains various sample scripts and test [templates for JUnit 4, JUnit 5 and 
     + [List the `java.lang.Integer`, `java.lang.Long` ... methods made deprecated in Java 9](#list-the-javalanginteger-javalanglong--methods-made-deprecated-in-java-9)
     + [List the deprecated methods in package `java.util.concurrent.atomic`](#list-the-deprecated-methods-in-package-javautilconcurrentatomic)
     + [List the deprecated methods of `java.lang.Thread`](#list-the-deprecated-methods-of-javalangthread)
+- [Vote](#vote)
 - [StatusCode](#statuscode)
 
 ### JBang CLI Templates
@@ -619,6 +620,39 @@ public class Thread implements Runnable // since 1.0
     public native int countStackFrames();  /** * Waits at most @code millis} milliseconds for this thread to; // @Deprecated(since="1.2", forRemoval=true)
 }
 ```
+
+## Vote
+
+A program to compute the result of a weighted vote. See [Décider avec le vote pondéré par capital de points](https://www.manager-go.com/gestion-de-projet/dossiers-methodes/vote-pondere-par-capital-de-points).
+
+It makes use of Java `Stream` filter, map, reduce (and collect) pattern, shows `Stream.chars()`, `Stream.iterate(...)` and `Map` sorting usage and uses Java 15 text blocks.
+
+Written with JBang, Picocli.
+
+### Sample use
+
+```sh
+jbang vote@grumpyf0x48 HNTB vote.txt
+H=4 N=3 T=2 B=1
+T=4 N=3 H=2 B=1
+N=4 B=3 T=2 H=1
+B=4 T=3 N=2 H=1
+
+N=12 T=11 B=9 H=8
+```
+
+where the vote options are: H, N, T and B and `vote.txt` is a text file with pondered votes (with points 4, 3, 2, 1):
+
+```sh
+cat vote.txt
+H N T B
+T N H B
+N B T H
+B T N H
+```
+
+The winner is N with 12 points.
+
 ## StatusCode
 
 A sample sort program to illustrate Java 11 HttpClient use.
