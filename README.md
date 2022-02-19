@@ -635,6 +635,8 @@ Written with JBang, Picocli.
 jbang vote@grumpyf0x48 HNTB vote.txt
 ```
 
+The program output is:
+
 ```console
 H=4 N=3 T=2 B=1
 T=4 N=3 H=2 B=1
@@ -648,6 +650,9 @@ where the vote options are: H, N, T and B and `vote.txt` is a text file with pon
 
 ```sh
 cat vote.txt
+```
+
+```console
 H N T B
 T N H B
 N B T H
