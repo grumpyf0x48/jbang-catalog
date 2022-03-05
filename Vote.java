@@ -8,10 +8,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -64,6 +61,7 @@ public class Vote implements Callable<Integer> {
 
         final Map<Character, Integer> sortedPointsPerOption = sortByReverseValue(pointsPerOption);
         votePrinter.addVoteResults(sortedPointsPerOption);
+        votePrinter.close();
 
         return sortedPointsPerOption;
     }
@@ -127,6 +125,9 @@ public class Vote implements Callable<Integer> {
         default void addVoteResults(final Map<Character, Integer> sortedPoints) {
         }
 
+        default void close() {
+        }
+
         static VotePrinter getInstance(final PrintStream console) {
             return console == null ? new NoopVotePrinter() : new ConsoleVotePrinter(console);
         }
@@ -155,8 +156,12 @@ public class Vote implements Callable<Integer> {
         public void addVoteResults(final Map<Character, Integer> sortedPoints) {
             console.append('\n')
                     .append(sortedPoints.toString().replaceAll("[,{}]", ""))
-                    .append('\n')
-                    .flush();
+                    .append('\n');
+        }
+
+        @Override
+        public void close() {
+            console.flush();
         }
     }
 }
