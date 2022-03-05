@@ -45,7 +45,7 @@ public class Vote implements Callable<Integer> {
         return 0;
     }
 
-    public Map<Character, Integer> getPointsPerOption(final Stream<String> votes, final String options, final PrintStream console) {
+    public static Map<Character, Integer> getPointsPerOption(final Stream<String> votes, final String options, final PrintStream console) {
         final VotePrinter votePrinter = VotePrinter.getInstance(console);
 
         final String effectiveOptions = getDistinctLetters(options.toUpperCase());

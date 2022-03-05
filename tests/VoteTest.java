@@ -7,7 +7,6 @@
 //DEPS org.junit.platform:junit-platform-launcher:1.8.2
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.launcher.Launcher;
@@ -32,14 +31,8 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 
 public class VoteTest {
 
-    private static Vote vote;
     private OutputStream consoleOutput;
     private PrintStream console;
-
-    @BeforeAll
-    static void setUpAll() {
-        vote = new Vote();
-    }
 
     @BeforeEach
     void setUp() {
@@ -65,7 +58,7 @@ public class VoteTest {
                 B T H
                 """;
 
-        final Map<Character, Integer> pointsPerOption = vote.getPointsPerOption(votes.lines(), "HTB", console);
+        final Map<Character, Integer> pointsPerOption = Vote.getPointsPerOption(votes.lines(), "HTB", console);
 
         assertEquals(of('T', 7, 'H', 6, 'B', 5), pointsPerOption, "Incorrect points");
         final String results = """
@@ -94,7 +87,7 @@ public class VoteTest {
                 B T N H
                 """;
 
-        final Map<Character, Integer> pointsPerOption = vote.getPointsPerOption(votes.lines(), "HNTB", console);
+        final Map<Character, Integer> pointsPerOption = Vote.getPointsPerOption(votes.lines(), "HNTB", console);
 
         assertEquals(of('N', 12, 'T', 11, 'B', 9, 'H', 8), pointsPerOption, "Incorrect points");
         final String results = """
@@ -117,7 +110,7 @@ public class VoteTest {
                     N B T H
                     B T N H
                         """;
-            vote.getPointsPerOption(votes.lines(), "HNTB", null);
+            Vote.getPointsPerOption(votes.lines(), "HNTB", null);
         }, "Exception was not raised");
         assertEquals("Too many options in: HNTBC", exception.getMessage(), "Exception raised is not the expected one");
     }
@@ -130,7 +123,7 @@ public class VoteTest {
                     T N B B
                     N B T H
                     """;
-            vote.getPointsPerOption(votes.lines(), "HNTB", null);
+            Vote.getPointsPerOption(votes.lines(), "HNTB", null);
         }, "Exception was not raised");
         assertEquals("Duplicate option in: TNBB", exception.getMessage(), "Exception raised is not the expected one");
     }
@@ -143,7 +136,7 @@ public class VoteTest {
                     T N H C
                     N B T H
                     """;
-            vote.getPointsPerOption(votes.lines(), "HNTB", null);
+            Vote.getPointsPerOption(votes.lines(), "HNTB", null);
         }, "Exception was not raised");
         assertEquals("Invalid option in: TNHC", exception.getMessage(), "Exception raised is not the expected one");
     }
