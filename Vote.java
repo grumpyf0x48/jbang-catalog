@@ -114,7 +114,7 @@ public class Vote implements Callable<Integer> {
         return unsortedMap.entrySet()
                 .stream()
                 .sorted(comparingByValue(reverseOrder()))
-                .collect(toMap(Entry::getKey, Entry::getValue, (Integer a, Integer b) -> b, LinkedHashMap::new));
+                .collect(toMap(Entry::getKey, Entry::getValue, (Integer points, Integer newPoints) -> newPoints, LinkedHashMap::new));
     }
 
     private interface VotePrinter {
