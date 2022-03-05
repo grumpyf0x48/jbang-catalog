@@ -8,7 +8,10 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,7 +30,7 @@ import static java.util.stream.Stream.iterate;
 public class Vote implements Callable<Integer> {
 
     @Parameters(arity = "1", index = "0", description = "Options to vote for")
-    String voteOptions;
+    String options;
 
     @Option(names = {"-f", "--filepath"}, description = "Text file with votes")
     String filePath;
@@ -38,31 +41,21 @@ public class Vote implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        getPointsPerOption(getLines(filePath), voteOptions, System.out);
+        getPointsPerOption(getLines(filePath), options, System.out);
         return 0;
     }
 
     public static Map<Character, Integer> getPointsPerOption(final Stream<String> votes, final String options, final PrintStream console) {
         final VotePrinter votePrinter = VotePrinter.getInstance(console);
-
-        final String effectiveOptions = getDistinctLetters(options.toUpperCase());
-        final int optionsCount = effectiveOptions.length();
-
-        final Integer[] weightedPoints = iterate(optionsCount, point -> point - 1)
-                .limit(optionsCount)
-                .toArray(Integer[]::new);
-
+        final VoteOptions voteOptions = new VoteOptions(options);
         final Map<Character, Integer> pointsPerOption = new HashMap<>();
-
         votes.map(String::strip)
                 .filter(vote -> vote.matches("([A-Z] )*[A-Z]"))
                 .map(vote -> vote.toUpperCase().replaceAll("\\s+", ""))
-                .forEach(vote -> addVote(vote, effectiveOptions, optionsCount, weightedPoints, pointsPerOption, votePrinter));
-
+                .forEach(vote -> addVote(vote, voteOptions, pointsPerOption, votePrinter));
         final Map<Character, Integer> sortedPointsPerOption = sortByReverseValue(pointsPerOption);
         votePrinter.addVoteResults(sortedPointsPerOption);
         votePrinter.close();
-
         return sortedPointsPerOption;
     }
 
@@ -82,10 +75,10 @@ public class Vote implements Callable<Integer> {
                 .toString();
     }
 
-    private static void addVote(final String vote, final String effectiveOptions, final int optionsCount, final Integer[] weightedPoints, final Map<Character, Integer> pointsPerOption, final VotePrinter votePrinter) {
-        checkVote(vote, optionsCount);
-        for (int optionIndex = 0; optionIndex < optionsCount; optionIndex++) {
-            addVoteOption(vote, effectiveOptions, optionsCount, optionIndex, weightedPoints, pointsPerOption, votePrinter);
+    private static void addVote(final String vote, final VoteOptions voteOptions, final Map<Character, Integer> pointsPerOption, final VotePrinter votePrinter) {
+        checkVote(vote, voteOptions.count);
+        for (int optionIndex = 0; optionIndex < voteOptions.count; optionIndex++) {
+            addVoteOption(vote, voteOptions, optionIndex, pointsPerOption, votePrinter);
         }
     }
 
@@ -98,14 +91,14 @@ public class Vote implements Callable<Integer> {
         }
     }
 
-    private static void addVoteOption(final String vote, final String effectiveOptions, final int optionsCount, final int optionIndex, final Integer[] weightedPoints, final Map<Character, Integer> pointsPerOption, final VotePrinter votePrinter) {
+    private static void addVoteOption(final String vote, final VoteOptions voteOptions, final int optionIndex, final Map<Character, Integer> pointsPerOption, final VotePrinter votePrinter) {
         final Character option = vote.charAt(optionIndex);
-        if (!effectiveOptions.contains("" + option)) {
+        if (!voteOptions.options.contains("" + option)) {
             throw new IllegalArgumentException("Invalid option in: " + vote);
         }
         final Integer actualPoints = pointsPerOption.getOrDefault(option, 0);
-        final Integer obtainedPoints = weightedPoints[optionIndex];
-        final boolean lastOption = optionIndex == optionsCount - 1;
+        final Integer obtainedPoints = voteOptions.weightedPoints[optionIndex];
+        final boolean lastOption = optionIndex == voteOptions.count - 1;
         votePrinter.addVoteOption(option, lastOption, obtainedPoints);
         pointsPerOption.put(option, actualPoints + obtainedPoints);
     }
@@ -133,10 +126,10 @@ public class Vote implements Callable<Integer> {
         }
     }
 
-    public static class NoopVotePrinter implements VotePrinter {
+    private static class NoopVotePrinter implements VotePrinter {
     }
 
-    public static class ConsoleVotePrinter implements VotePrinter {
+    private static class ConsoleVotePrinter implements VotePrinter {
 
         private final PrintStream console;
 
@@ -162,6 +155,21 @@ public class Vote implements Callable<Integer> {
         @Override
         public void close() {
             console.flush();
+        }
+    }
+
+    private static class VoteOptions {
+
+        final String options;
+        final int count;
+        final Integer[] weightedPoints;
+
+        private VoteOptions(final String options) {
+            this.options = getDistinctLetters(options.toUpperCase());
+            count = this.options.length();
+            weightedPoints = iterate(count, point -> point - 1)
+                    .limit(count)
+                    .toArray(Integer[]::new);
         }
     }
 }
