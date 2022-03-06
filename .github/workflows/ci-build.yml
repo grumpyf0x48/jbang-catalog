@@ -14,15 +14,7 @@ jobs:
           key: ${{ runner.os }}-jbang-${{ hashFiles('*.java') }}
           restore-keys: ${{ runner.os }}-jbang-
 
-      - name: compile scripts
-        uses: jbangdev/jbang-action@v0.90.0
-        with:
-          script: Catalog.java
-        env:
-          JBANG_REPO: /root/.jbang/repository
-          GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
-
-      - name: run tests
+      - name: compile code and run tests
         uses: jbangdev/jbang-action@v0.90.0
         with:
           script: ./tests/TestSuite.java
