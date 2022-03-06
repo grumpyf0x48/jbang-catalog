@@ -21,3 +21,11 @@ jobs:
         env:
           JBANG_REPO: /root/.jbang/repository
           GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
+
+      - name: run tests
+        uses: jbangdev/jbang-action@v0.90.0
+        with:
+          script: ./tests/TestSuite.java
+        env:
+          JBANG_REPO: /root/.jbang/repository
+          GITHUB_TOKEN: ${{ secrets.ISSUE_GITHUB_TOKEN }}
