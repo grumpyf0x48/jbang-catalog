@@ -1,6 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //SOURCES *.java
+//SOURCES tests/*.java
 //FILES jbang-catalog.json
 //FILES templates/junit4.java.qute
 //FILES templates/junit5.java.qute
