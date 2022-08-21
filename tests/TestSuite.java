@@ -1,7 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //JAVA 17
-//SOURCES ../*.java
+//SOURCES ../Vote.java
 //SOURCES VoteTest.java
 
 public class TestSuite {
