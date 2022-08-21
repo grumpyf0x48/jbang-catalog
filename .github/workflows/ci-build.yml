@@ -15,7 +15,7 @@ jobs:
           restore-keys: ${{ runner.os }}-jbang-
 
       - name: compile code and run tests
-        uses: jbangdev/jbang-action@v0.95.0
+        uses: jbangdev/jbang-action@v0.97.0
         with:
           script: ./tests/TestSuite.java
         env:
