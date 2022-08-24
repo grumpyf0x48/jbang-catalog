@@ -703,10 +703,10 @@ jbang statusCode@grumpyf0x48 https://framagit.org
 A CLI template to write a Picocli-based command with default `JAVA`, `JAVA_OPTIONS` and `JAVAC_OPTIONS` set:
 
 ```sh
-jbang init --template=cli@grumpyf0x48 -DJAVA=11 Java11.java
+jbang init --template=cli@grumpyf0x48 -DJAVA=18 MyCommandLine.java
 ```
 
-Other templates also exist for Java 11 `cli11` and for Java 17 `cli17`.
+Another template exist for Java 17 `cli17`.
 
 ## Test templates
 
