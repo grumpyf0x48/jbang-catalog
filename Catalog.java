@@ -7,7 +7,6 @@
 //FILES templates/junit5.java.qute
 //FILES templates/testng.java.qute
 //FILES templates/cli.java.qute
-//FILES templates/cli11.java.qute
 //FILES templates/cli17.java.qute
 //FILES .github/workflows/ci-build.yml
 //FILES README.md
