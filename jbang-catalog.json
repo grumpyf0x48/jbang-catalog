@@ -66,12 +66,6 @@
         "{basename}.java": "templates/cli.java.qute"
       },
       "properties": {}
-    },
-    "cli17": {
-      "file-refs": {
-        "{basename}.java": "templates/cli17.java.qute"
-      },
-      "description": "Basic template for Java 17 CLI with Picocli"
     }
   }
 }
