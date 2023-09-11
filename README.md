@@ -706,8 +706,6 @@ A CLI template to write a Picocli-based command with default `JAVA`, `JAVA_OPTIO
 jbang init --template=cli@grumpyf0x48 -DJAVA=18 MyCommandLine.java
 ```
 
-Another template exist for Java 17 `cli17`.
-
 ## Test templates
 
 Each template contains a `main` method so that the generated test script can be run directly with JBang. It then
